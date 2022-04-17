@@ -15,7 +15,7 @@ public class MultipleFramesBouncingBallsAnimation {
                     Color.ORANGE, Color.BLUE};
 
     private void printBall(Ball ball, DrawSurface d) {
-        ball.moveOneStep();
+        ball.timePassed();
         ball.drawOn(d);
     }
 

@@ -1,3 +1,6 @@
+/**
+ * interface for collidables.
+ */
 public interface Collidable {
     // Return the "collision shape" of the object.
     Rectangle getCollisionRectangle();

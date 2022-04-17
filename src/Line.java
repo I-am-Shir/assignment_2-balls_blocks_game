@@ -131,52 +131,35 @@ public class Line {
     /**
      * function finds the intersection point if the lines intersect,
      * and null otherwise.
-     * accurate up to the 1000000 decimal.
+     * we are using the determination technique.
      *
      * @param other the line were checking intersection with.
      * @return the intersection point if the lines intersect or not.
      */
     public Point intersectionWith(Line other) {
-        double x = -1;
-        double y = -1;
-        double m1 = ((s.getY() - e.getY()) / (s.getX() - e.getX()));  //finding the incline for first line.
-        double c1 = e.getY() - (m1 * e.getX()); //finding the y-intercept of the first line.
-        double m2 = ((other.start().getY() - other.end().getY())
-                / (other.start().getX() - other.end().getX())); //incline second line.
-        double c2 =
-                other.end().getY() - (m2 * other.end().getX()); //finding the y-intercept of the second line.
+        double A1 = other.end().getY() - other.start().getY();
+        double B1 = other.start().getX() - other.end().getX();
+        double C1 = (A1*other.start().getX())+(B1* other.start().getY());
+        double A2 = end().getY() - start().getY();
+        double B2 = start().getX() - end().getX();
+        double C2 = (A2*start().getX())+(B2* start().getY());
 
-        if (m1 == m2) {  //checks if the incline is the same.
-            if ((m1 * s.getX() + c1) == (m2 * s.getX() + c2)) { //checks if the lines are the same.
-                return this.e;
-            } else {
-                return null;
-            }
-        }
-        Point intersect = parallelIntersect(other, m1, c1, this.s, this.e);
-        if (intersect != null) {
-            System.out.println("m1");
-            return intersect;
-        }
-        intersect = parallelIntersect(this, m2, c2, other.start(), other.end());
-        if (intersect != null) {
-            System.out.println("m2");
-            return intersect;
-        }
-
-        x = ((c1 - c2) / -(m1 - m2));  //finds the x value fot the intersecting point.
-        x = Math.floor(x * 1000000) / 1000000d;
-        y = (m1 * x + c1); //finds the y value fot the intersecting point.
-        y = Math.floor(y * 1000000) / 1000000d;
-
-        intersect = new Point(x, y);  //creates a new point for the intersection.
-
-        if (checkBetween(s, e, intersect)) {  // checks that the intersection is between the segment.
-            if (checkBetween(other.start(), other.end(), intersect)) {
-                return intersect;
-            }
-        }
-        return null;
+       double equation1 = A1*other.start().getX()+B1*other.start().getY();
+       double equation2 = A2*start().getX()+B1*start().getY();
+       double determinant = A2*B1-A1*B2;
+       if(determinant == 0){
+           //lines are parallel- no intersection in our case.
+           return null;
+       }
+       double interX = (B1*C2-B2*C1)/determinant;
+       double interY = (A2*C1-A1*C2)/determinant;
+       Point intersect = new Point(interX,interY);
+       if(checkBetween(start(),end(),intersect)) {
+           if (checkBetween(other.start(), other.end(), intersect)) {
+               return intersect;
+           }
+       }
+       return null;
     }
 
     /**

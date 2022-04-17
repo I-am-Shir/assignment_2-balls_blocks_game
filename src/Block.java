@@ -1,6 +1,7 @@
-public class Block implements Collidable {
-    Rectangle collide;
+import biuoop.DrawSurface;
 
+public class Block implements Collidable, Sprite{
+    Rectangle collide;
 
     // Return the "collision shape" of the object.
     @Override
@@ -10,6 +11,21 @@ public class Block implements Collidable {
 
     public Block(Rectangle block) {
         this.collide = block;
+    }
+
+    /**
+     * draws the block on draw-surface (part of sprite).
+     * @param d the draw-surface.
+     */
+    public void drawOn(DrawSurface d){
+        d.fillRectangle((int)collide.getUpperLeft().getX(),(int)collide.getUpperLeft().getY(),(int)collide.getWidth(),(int)collide.getHeight());
+    }
+
+    /**
+     * does nothing for now (part of sprite).
+     */
+    public void timePassed(){
+
     }
 
     // Notify the object that we collided with it at collisionPoint with
@@ -35,4 +51,8 @@ public class Block implements Collidable {
         return new Velocity(newVx, newVy);
     }
 
+    public void addToGame(Game g){
+        g.addSprite(this);
+        g.addCollidable(this);
+    }
 }

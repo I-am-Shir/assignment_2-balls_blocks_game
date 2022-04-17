@@ -7,7 +7,7 @@ import biuoop.DrawSurface;
  * velocity and direction,
  * surface and its limits.
  */
-public class Ball {
+public class Ball implements Sprite {
 
     private Point locat;  //locat=location
     private int radius;
@@ -75,6 +75,11 @@ public class Ball {
         return radius;
     }
 
+    /**
+     * getting the center of the ball, which equels the location.
+     *
+     * @return the location.
+     */
     public Point getCenter() {
         return locat;
     }
@@ -170,6 +175,10 @@ public class Ball {
         }
     }
 
+    /**
+     * sets game environment.
+     * @param gameEnvironment game environment.
+     */
     public void setGameEnvironment(GameEnvironment gameEnvironment) {
         this.gameEnvironment = gameEnvironment;
     }
@@ -179,7 +188,7 @@ public class Ball {
      * controls the balls movement,
      * making it jump inside its border.
      */
-    public void moveOneStep() {
+    public void timePassed() {
         Velocity v = new Velocity(this.velocity.getVx(), this.velocity.getVy());
         CollisionInfo collide = gameEnvironment.getClosestCollision(new Line(locat, v.applyToPoint(this.locat)));
         //System.out.println(collide.collisionPoint());
@@ -187,9 +196,11 @@ public class Ball {
         if (collide != null) {
             if (((this.locat.distance(collide.collisionPoint())) <= 6)
                     && (this.locat.distance(collide.collisionPoint()) > 0)) {
-                System.out.println("V before is (" + v.getVx() + "," + v.getVy() + ") " + locat.getX() + " , " + locat.getY());
+                System.out.println(
+                        "V before is (" + v.getVx() + "," + v.getVy() + ") " + locat.getX() + " , " + locat.getY());
                 v = collide.collisionObject().hit(collide.collisionPoint(), v);
-                System.out.println("V after is (" + v.getVx() + "," + v.getVy() + ")" + locat.getX() + " , " + locat.getY());
+                System.out.println(
+                        "V after is (" + v.getVx() + "," + v.getVy() + ")" + locat.getX() + " , " + locat.getY());
                 setVelocity(v);
                 //System.out.println("inter close" + v.toString());
             } else {
@@ -199,8 +210,8 @@ public class Ball {
                 double newVx =
                         (v.getVx() < 0 ? -1 : 1) * ((this.locat.distance(collide.collisionPoint()) - 2) * percentageVx);
                 double newVy =
-                        ((v.getVy() < 0 ? -1 : 1) * ((this.locat.distance(collide.collisionPoint()) - 2) *
-                                (1 - percentageVx))); //totalVelo-percentageVx==percentageVy
+                        ((v.getVy() < 0 ? -1 : 1) * ((this.locat.distance(collide.collisionPoint()) - 2)
+                                * (1 - percentageVx))); //totalVelo-percentageVx==percentageVy
                 setVelocity(collide.collisionObject().hit(collide.collisionPoint(), v));
                 v = new Velocity(newVx, newVy);
 
@@ -211,6 +222,7 @@ public class Ball {
         System.out.println("newX = " + v.getVx() + " " + "newY = " + v.getVy());
         this.locat = v.applyToPoint(this.locat);
 
+    }
         /*
         //checks ball outer shell is on or passing boarder.
         if (this.locat.getX() + radius + v.getVx() >= limitWidth) { //same for x forward.

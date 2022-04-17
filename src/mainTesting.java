@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class mainTesting {
     private void printBall(Ball ball, DrawSurface d) {
-        ball.moveOneStep();
+        ball.timePassed();
         ball.drawOn(d);
     }
 
@@ -19,6 +19,12 @@ public class mainTesting {
             printBall(balls[i], d);
         }
     }
+
+    private void printRectangle(DrawSurface d, Point start, int width, int height, Color color) {
+        d.setColor(color);
+        d.fillRectangle((int) start.getX(), (int) start.getY(), width, height);
+    }
+
     private void printCollidables(Collidable[] collidables, DrawSurface d) {
         for (int i = 0; i < collidables.length; i++) {
             printRectangle(d,
@@ -42,11 +48,6 @@ public class mainTesting {
             gui.show(d);
             sleeper.sleepFor(50);
         }
-    }
-
-    private void printRectangle(DrawSurface d, Point start, int width, int height, Color color) {
-        d.setColor(color);
-        d.fillRectangle((int) start.getX(), (int) start.getY(), width, height);
     }
 
     public static void main(String[] args) {

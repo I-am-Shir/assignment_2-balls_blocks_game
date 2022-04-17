@@ -12,6 +12,10 @@ public class GameEnvironment {
         gameEnviro.add(c);
     }
 
+    public void addManyCollidable(ArrayList<? extends Collidable> c) {
+        gameEnviro.addAll(c);
+    }
+
     // Assume an object moving from line.start() to line.end().
     // If this object will not collide with any of the collidables
     // in this collection, return null. Else, return the information
