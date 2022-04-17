@@ -52,7 +52,7 @@ public class MultipleBouncingBallsAnimation {
         for (int i = 0; i < args.length; i++) {
             int size = Integer.parseInt(args[i]);
             juggle[i] = new Ball(rand.nextInt(size < width ? width - size : width - 1)
-                    + size % width, rand.nextInt(width - (size < height ? size : 1)) + size % height, size,
+                    + size % width, rand.nextInt(width - (size < height ? size : 1)) + size % height, size,new Velocity(1,1),
                     colors[rand.nextInt(colors.length)]);
             juggle[i].setVelocity(Velocity.fromAngleAndSpeed(rand.nextInt(360), (50 - size > 0 ? 50 - size : 1)));
             juggle[i].setLimit(width, height);

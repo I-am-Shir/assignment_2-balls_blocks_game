@@ -40,10 +40,11 @@ public class Ball implements Sprite {
      * @param r       r the radius of the ball.
      * @param color   the balls color.
      */
-    public Ball(int centerX, int centerY, int r, java.awt.Color color) {
+    public Ball(int centerX, int centerY, int r, Velocity velocity, java.awt.Color color) {
         this.locat = new Point(centerX, centerY);
         this.radius = r;
         this.colors = color;
+        this.velocity = velocity;
     }
 
     // accessors
@@ -177,6 +178,7 @@ public class Ball implements Sprite {
 
     /**
      * sets game environment.
+     *
      * @param gameEnvironment game environment.
      */
     public void setGameEnvironment(GameEnvironment gameEnvironment) {
@@ -223,29 +225,8 @@ public class Ball implements Sprite {
         this.locat = v.applyToPoint(this.locat);
 
     }
-        /*
-        //checks ball outer shell is on or passing boarder.
-        if (this.locat.getX() + radius + v.getVx() >= limitWidth) { //same for x forward.
-            if (v.getVx() > 0) {
-                v.setVx(-v.getVx());
-            }
-        } else if (this.locat.getX() - radius + v.getVx() <= limitStartX) { //same for x backwards.
-            if (v.getVx() < 0) {
-                v.setVx(-v.getVx());
-            }
-        }
 
-        if (this.locat.getY() + radius + v.getVy() >= limitHeight) {  //same for y forward.
-            if (v.getVy() > 0) {
-                v.setVy(-v.getVy());
-            }
-        } else if (this.locat.getY() - radius + v.getVy() <= limitStartY) {  //same for y backwards.
-            if (v.getVy() < 0) {
-                v.setVy(-v.getVy());
-            }
-        }
-        //end of this check.*/
-        /*setVelocity(v);
-        this.locat = this.getVelocity().applyToPoint(this.locat);*/
+    public void addToGame(Game g) {
+        g.addSprite(this);
     }
 }

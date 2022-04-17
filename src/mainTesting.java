@@ -60,28 +60,32 @@ public class mainTesting {
                 700/2,//rand.nextInt(size < width ? width - size : width - 1) + size % width,
                 700/2,// rand.nextInt(width - (size < height ? size : 1)) + size % height,
                 size,
+                new Velocity(1, 1),
                 Color.RED);
         Ball bouncer2 = new Ball(
                 700/2,//rand.nextInt(size < width ? width - size : width - 1) + size % width,
                 700/2,// rand.nextInt(width - (size < height ? size : 1)) + size % height,
                 size,
+                new Velocity(1, 1),
                 Color.ORANGE);
         Ball bouncer3 = new Ball(
                 700/2,//rand.nextInt(size < width ? width - size : width - 1) + size % width,
                 700/2,// rand.nextInt(width - (size < height ? size : 1)) + size % height,
                 size,
+                new Velocity(1, 1),
                 Color.green);
         Ball bouncer4 = new Ball(
                 700/2,//rand.nextInt(size < width ? width - size : width - 1) + size % width,
                 700/2,// rand.nextInt(width - (size < height ? size : 1)) + size % height,
                 size,
+                new Velocity(1, 1),
                 Color.gray);
         GameEnvironment gameEnvironment = new GameEnvironment();
-        gameEnvironment.addCollidable(new Block(new Rectangle(new Point(0, 0), width, 50))); //top
-        gameEnvironment.addCollidable(new Block(new Rectangle(new Point(width - 50, 0), 50, height)));//right
-        gameEnvironment.addCollidable(new Block(new Rectangle(new Point(50, height - 50), width, 50)));//bottom
-        gameEnvironment.addCollidable(new Block(new Rectangle(new Point(0, 0), 50, height)));//left
-        gameEnvironment.addCollidable(new Block(new Rectangle(new Point(300, 300), 200, 200)));//rec
+        gameEnvironment.addCollidable(new Block(new Rectangle(new Point(0, 0), width, 50,Color.RED))); //top
+        gameEnvironment.addCollidable(new Block(new Rectangle(new Point(width - 50, 0), 50, height,Color.RED)));//right
+        gameEnvironment.addCollidable(new Block(new Rectangle(new Point(50, height - 50), width, 50,Color.RED)));//bottom
+        gameEnvironment.addCollidable(new Block(new Rectangle(new Point(0, 0), 50, height,Color.RED)));//left
+        gameEnvironment.addCollidable(new Block(new Rectangle(new Point(300, 300), 200, 200,Color.RED)));//rec
 
 
         bouncer.setVelocity(30/*rand.nextInt(10)*/, 40/*rand.nextInt(10)*/);

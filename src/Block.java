@@ -1,6 +1,8 @@
 import biuoop.DrawSurface;
 
-public class Block implements Collidable, Sprite{
+import java.awt.Color;
+
+public class Block implements Collidable, Sprite {
     Rectangle collide;
 
     // Return the "collision shape" of the object.
@@ -15,16 +17,22 @@ public class Block implements Collidable, Sprite{
 
     /**
      * draws the block on draw-surface (part of sprite).
+     *
      * @param d the draw-surface.
      */
-    public void drawOn(DrawSurface d){
-        d.fillRectangle((int)collide.getUpperLeft().getX(),(int)collide.getUpperLeft().getY(),(int)collide.getWidth(),(int)collide.getHeight());
+    public void drawOn(DrawSurface d) {
+        d.setColor(collide.getColor());
+        d.fillRectangle((int) collide.getUpperLeft().getX(), (int) collide.getUpperLeft().getY(),
+                (int) collide.getWidth(), (int) collide.getHeight());
+        d.setColor(Color.BLACK);
+        d.drawRectangle((int) collide.getUpperLeft().getX() - 1, (int) collide.getUpperLeft().getY() - 1,
+                (int) collide.getWidth() + 1, (int) collide.getHeight() + 1);
     }
 
     /**
      * does nothing for now (part of sprite).
      */
-    public void timePassed(){
+    public void timePassed() {
 
     }
 
@@ -51,7 +59,7 @@ public class Block implements Collidable, Sprite{
         return new Velocity(newVx, newVy);
     }
 
-    public void addToGame(Game g){
+    public void addToGame(Game g) {
         g.addSprite(this);
         g.addCollidable(this);
     }

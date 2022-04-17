@@ -23,8 +23,7 @@ public class BouncingBallAnimation {
     private static void drawAnimation(Point start, double dx, double dy) {
         GUI gui = new GUI("title", 200, 200);
         Sleeper sleeper = new Sleeper();
-        Ball ball = new Ball((int) start.getX(), (int) start.getY(), 30, java.awt.Color.BLACK);
-        ball.setVelocity(dx, dy);
+        Ball ball = new Ball((int) start.getX(), (int) start.getY(), 30,new Velocity(dx, dy), java.awt.Color.BLACK);
         ball.setLimit(200, 200);
         while (true) {
             ball.timePassed();

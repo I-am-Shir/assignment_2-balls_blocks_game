@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class Rectangle {
@@ -9,6 +10,7 @@ public class Rectangle {
     private double width;
     private double height;
     private Point upperLeft;
+    private Color color;
 
     /**
      * Create a new rectangle with location and width/height.
@@ -19,7 +21,7 @@ public class Rectangle {
      *                  we created points for each corner of the rectangle.
      *                  then we created lines for the rectangle that connect these outer points.
      */
-    public Rectangle(Point upperLeft, double width, double height) {
+    public Rectangle(Point upperLeft, double width, double height, Color color) {
         Point topRight = new Point(upperLeft.getX() + width, upperLeft.getY());
         Point bottomLeft = new Point(upperLeft.getX(), upperLeft.getY() + height);
         Point bottomRight = new Point(topRight.getX(), bottomLeft.getY());
@@ -28,6 +30,7 @@ public class Rectangle {
         leftSide = new Line(upperLeft, bottomLeft);
         rightSide = new Line(topRight, bottomRight);
         bottom = new Line(bottomLeft, bottomRight);
+        this.color=color;
 
         this.width = width;
         this.height = height;
@@ -80,5 +83,9 @@ public class Rectangle {
     // Returns the upper-left point of the rectangle.
     public Point getUpperLeft() {
         return this.upperLeft;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }
