@@ -103,6 +103,12 @@ public class Ball implements Sprite {
     public void drawOn(DrawSurface surface) {
         surface.setColor(colors);
         surface.fillCircle(getX(), getY(), radius);
+
+        if (hitMe != null)
+        {
+            surface.drawLine ((int)last.getX(), (int)last.getY(), (int)hitMe.getX(), (int)hitMe.getY());
+            surface.drawCircle((int)hitMe.getX(), (int)hitMe.getY(), 20);
+        }
     }
 
     /**
@@ -197,18 +203,15 @@ public class Ball implements Sprite {
         //System.out.println(collide.collisionPoint());
 
         if (collide != null) {
-            if (((this.locat.distance(collide.collisionPoint())) <= 6)
-                    && (this.locat.distance(collide.collisionPoint()) > 0)) {
-                System.out.println(
-                        "V before is (" + v.getVx() + "," + v.getVy() + ") " + locat.getX() + " , " + locat.getY());
+            if (((this.locat.distance(collide.collisionPoint())) <= 3)){
+              //      && (this.locat.distance(collide.collisionPoint()) >= 0)) {
                 v = collide.collisionObject().hit(collide.collisionPoint(), v);
-                System.out.println(
-                        "V after is (" + v.getVx() + "," + v.getVy() + ")" + locat.getX() + " , " + locat.getY());
+
                 setVelocity(v);
                 //System.out.println("inter close" + v.toString());
             } else {
                 double totalVelo = Math.abs(v.getVx()) + Math.abs(v.getVy());
-                double percentageVx = Math.abs(v.getVx()) / totalVelo;
+                double percentageVx = Math.abs(v.getVx() / totalVelo);
 
                 double newVx =
                         (v.getVx() < 0 ? -1 : 1) * ((this.locat.distance(collide.collisionPoint()) - 2) * percentageVx);
@@ -217,15 +220,17 @@ public class Ball implements Sprite {
                                 * (1 - percentageVx))); //totalVelo-percentageVx==percentageVy
                 setVelocity(collide.collisionObject().hit(collide.collisionPoint(), v));
                 v = new Velocity(newVx, newVy);
-
-                System.out.println("the x %= " + percentageVx + " newX = " + v.getVx() + " " + "newY = " + v.getVy());
-                //System.out.println("inter far" + v.toString());
             }
         }
-        System.out.println("newX = " + v.getVx() + " " + "newY = " + v.getVy());
+        if (collide != null) {
+            hitMe = collide.collisionPoint();
+            last = locat;
+        }
         this.locat = v.applyToPoint(this.locat);
-
     }
+
+    private Point hitMe = null;
+    private Point last = null;
 
     /**
      * adding ball sprite to the game.

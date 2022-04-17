@@ -1,5 +1,6 @@
 import biuoop.DrawSurface;
 import biuoop.GUI;
+import biuoop.KeyboardSensor;
 import biuoop.Sleeper;
 
 import java.awt.Color;
@@ -83,8 +84,8 @@ public class Game {
         int paddleHeight = height / 40;
 
         gui = new GUI("DESTROY!!!", width, height);
-        Ball ball1 = new Ball(width / 2, (height / 3) * 2, size / 3, new Velocity(5, 5), Color.GREEN);
-        Ball ball2 = new Ball(width / 2, (height / 3) * 2, size / 3, new Velocity(7, 7), Color.red);
+        Ball ball1 = new Ball(width / 2, (height / 3) * 2, size / 3, new Velocity(15, 15), Color.GREEN);
+        Ball ball2 = new Ball(width / 2, (height / 3) * 2, size / 3, new Velocity(17, 17), Color.red);
         Paddle paddle = new Paddle(
                 new Rectangle(new Point(width / 2 - paddleWidth / 2, height - size - paddleHeight - 2), paddleWidth,
                         paddleHeight, Color.magenta), gui);
@@ -107,8 +108,10 @@ public class Game {
      * Run the game -- start the animation loop.
      */
     public void run() {
-        int framesPerSecond = 60;
+        int framesPerSecond = 30;
         int millisecondsPerFrame = 1000 / framesPerSecond;
+        KeyboardSensor keyboard = gui.getKeyboardSensor();
+
         while (true) {
             long startTime = System.currentTimeMillis(); // timing
 
@@ -123,6 +126,15 @@ public class Game {
             long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
             if (milliSecondLeftToSleep > 0) {
                 sleeper.sleepFor(milliSecondLeftToSleep);
+            }
+
+            int resume=0;
+            if (keyboard.isPressed("w")) {
+                while (resume==0){
+                if (keyboard.isPressed("s")) {
+                    resume = 1;
+                  }
+                }
             }
         }
     }

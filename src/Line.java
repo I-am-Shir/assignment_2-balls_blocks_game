@@ -137,29 +137,29 @@ public class Line {
      * @return the intersection point if the lines intersect or not.
      */
     public Point intersectionWith(Line other) {
-        double A1 = other.end().getY() - other.start().getY();
-        double B1 = other.start().getX() - other.end().getX();
-        double C1 = (A1*other.start().getX())+(B1* other.start().getY());
-        double A2 = end().getY() - start().getY();
-        double B2 = start().getX() - end().getX();
-        double C2 = (A2*start().getX())+(B2* start().getY());
+        double a1 = other.end().getY() - other.start().getY();
+        double b1 = other.start().getX() - other.end().getX();
+        double c1 = (a1 * other.start().getX()) + (b1 * other.start().getY());
+        double a2 = end().getY() - start().getY();
+        double b2 = start().getX() - end().getX();
+        double c2 = (a2 * start().getX()) + (b2 * start().getY());
 
-       double equation1 = A1*other.start().getX()+B1*other.start().getY();
-       double equation2 = A2*start().getX()+B1*start().getY();
-       double determinant = A2*B1-A1*B2;
-       if(determinant == 0){
-           //lines are parallel- no intersection in our case.
-           return null;
-       }
-       double interX = (B1*C2-B2*C1)/determinant;
-       double interY = (A2*C1-A1*C2)/determinant;
-       Point intersect = new Point(interX,interY);
-       if(checkBetween(start(),end(),intersect)) {
-           if (checkBetween(other.start(), other.end(), intersect)) {
-               return intersect;
-           }
-       }
-       return null;
+        double equation1 = a1 * other.start().getX() + b1 * other.start().getY();
+        double equation2 = a2 * start().getX() + b1 * start().getY();
+        double determinant = a2 * b1 - a1 * b2;
+        if (determinant == 0) {
+            //lines are parallel- no intersection in our case.
+            return null;
+        }
+        double interX = (b1 * c2 - b2 * c1) / determinant;
+        double interY = (a2 * c1 - a1 * c2) / determinant;
+        Point intersect = new Point(interX, interY);
+        if (checkBetween(start(), end(), intersect)) {
+            if (checkBetween(other.start(), other.end(), intersect)) {
+                return intersect;
+            }
+        }
+        return null;
     }
 
     /**
@@ -179,9 +179,11 @@ public class Line {
         return false;
     }
 
-    // If this line does not intersect with the rectangle, return null.
-    // Otherwise, return the closest intersection point to the
-    // start of the line.
+    /**
+     * @param rect the rectandle we check with.
+     * @return If the line does not intersect with the rectangle, it returns a null,
+     * if it does intersect it'll return the closest intersection point to the start of line.
+     */
     public Point closestIntersectionToStartOfLine(Rectangle rect) {
         java.util.List<Point> intersect = rect.intersectionPoints(this);
 

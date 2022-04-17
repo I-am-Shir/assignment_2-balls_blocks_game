@@ -1,6 +1,9 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
+/**
+ * the rectangle class.
+ */
 public class Rectangle {
 
     private Line top;
@@ -18,6 +21,7 @@ public class Rectangle {
      * @param upperLeft the top left point of the rectangle.
      * @param width     gives us the width of the rectangle.
      * @param height    gives us the height of the rectangle.
+     * @param color    gives us the color of the rectangle.
      *                  we created points for each corner of the rectangle.
      *                  then we created lines for the rectangle that connect these outer points.
      */
@@ -30,7 +34,7 @@ public class Rectangle {
         leftSide = new Line(upperLeft, bottomLeft);
         rightSide = new Line(topRight, bottomRight);
         bottom = new Line(bottomLeft, bottomRight);
-        this.color=color;
+        this.color = color;
 
         this.width = width;
         this.height = height;
@@ -52,8 +56,12 @@ public class Rectangle {
         return false;
     }
 
-    // Return a (possibly empty) List of intersection points
-    // with the specified line.
+    /**
+     * looking for all the intersection points,
+     * between the rectangle and the line.
+     * @param line the line we're checking for intersections with.
+     * @return a List of intersection points with the specified line.
+     */
     public java.util.List<Point> intersectionPoints(Line line) {
         ArrayList<Point> listOfIntersects = new ArrayList<Point>();  //the maximum times a line van intersect is twice.
 
@@ -70,21 +78,34 @@ public class Rectangle {
         return listOfIntersects;
     }
 
-
-    // Return the width and height of the rectangle
+    /**
+     * gets width of the rectangle..
+     * @return the width of the rectangle.
+     */
     public double getWidth() {
         return this.width;
     }
 
+    /**
+     * gets height of the rectangle..
+     * @return the height of the rectangle.
+     */
     public double getHeight() {
         return this.height;
     }
 
-    // Returns the upper-left point of the rectangle.
+    /**
+     * gets the upper left point of the rectangle.
+     * @return the upper-left point of the rectangle.
+     */
     public Point getUpperLeft() {
         return this.upperLeft;
     }
 
+    /**
+     * gets the color of the rectangle.
+     * @return the said color.
+     */
     public Color getColor() {
         return color;
     }
