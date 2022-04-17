@@ -35,10 +35,11 @@ public class Ball implements Sprite {
     /**
      * makes a ball (different format).
      *
-     * @param centerX the x variable for the center of the ball.
-     * @param centerY the y variable for the center of the ball.
-     * @param r       r the radius of the ball.
-     * @param color   the balls color.
+     * @param centerX  the x variable for the center of the ball.
+     * @param centerY  the y variable for the center of the ball.
+     * @param r        r the radius of the ball.
+     * @param velocity the velocity of the ball.
+     * @param color    the balls color.
      */
     public Ball(int centerX, int centerY, int r, Velocity velocity, java.awt.Color color) {
         this.locat = new Point(centerX, centerY);
@@ -226,6 +227,11 @@ public class Ball implements Sprite {
 
     }
 
+    /**
+     * adding ball sprite to the game.
+     *
+     * @param g the game.
+     */
     public void addToGame(Game g) {
         g.addSprite(this);
     }

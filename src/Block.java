@@ -2,17 +2,29 @@ import biuoop.DrawSurface;
 
 import java.awt.Color;
 
+/**
+ * the block class which implements collidable and sprite.
+ */
 public class Block implements Collidable, Sprite {
-    Rectangle collide;
+    private Rectangle collide;
 
-    // Return the "collision shape" of the object.
+    /**
+     * constructor.
+     *
+     * @param block the block.
+     */
+    public Block(Rectangle block) {
+        this.collide = block;
+    }
+
+    /**
+     * gets the rectangle for block.
+     *
+     * @return the "collision shape" of the object.
+     */
     @Override
     public Rectangle getCollisionRectangle() {
         return collide;
-    }
-
-    public Block(Rectangle block) {
-        this.collide = block;
     }
 
     /**
@@ -45,8 +57,8 @@ public class Block implements Collidable, Sprite {
         Double newVx = currentVelocity.getVx();
         Double newVy = currentVelocity.getVy();
         Point rectLeft = getCollisionRectangle().getUpperLeft();
-        Point rectBottomRight = new Point(rectLeft.getX() + getCollisionRectangle().getWidth(), rectLeft.getY() +
-                getCollisionRectangle().getHeight());
+        Point rectBottomRight = new Point(rectLeft.getX() + getCollisionRectangle().getWidth(), rectLeft.getY()
+                + getCollisionRectangle().getHeight());
 
         if ((collisionPoint.getX() == rectLeft.getX())
                 || (collisionPoint.getX() == rectBottomRight.getX())) {
@@ -59,6 +71,11 @@ public class Block implements Collidable, Sprite {
         return new Velocity(newVx, newVy);
     }
 
+    /**
+     * adds the block to the game,
+     * as collidable and sprite.
+     * @param g the game.
+     */
     public void addToGame(Game g) {
         g.addSprite(this);
         g.addCollidable(this);
