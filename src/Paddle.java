@@ -98,13 +98,18 @@ public class Paddle implements Sprite, Collidable {
         return paddle;
     }
 
+//    @Override
+//    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
+//        return null;
+//    }
+
     /**
      * the hit method of the block.
      * @param collisionPoint where it's expected to collide.
      * @param currentVelocity the current velocity.
      * @return the new velocity of the ball.
      */
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Ball hitter,Point collisionPoint, Velocity currentVelocity) {
         Double newVx = currentVelocity.getVx();
         Double newVy = currentVelocity.getVy();
         Point rectLeft = getCollisionRectangle().getUpperLeft();

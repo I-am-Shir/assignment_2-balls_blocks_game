@@ -205,7 +205,7 @@ public class Ball implements Sprite {
         if (collide != null) {
             if (((this.locat.distance(collide.collisionPoint())) <= 3)){
               //      && (this.locat.distance(collide.collisionPoint()) >= 0)) {
-                v = collide.collisionObject().hit(collide.collisionPoint(), v);
+                v = collide.collisionObject().hit(this,collide.collisionPoint(), v);              //check
 
                 setVelocity(v);
                 //System.out.println("inter close" + v.toString());
@@ -218,7 +218,7 @@ public class Ball implements Sprite {
                 double newVy =
                         ((v.getVy() < 0 ? -1 : 1) * ((this.locat.distance(collide.collisionPoint()) - 2)
                                 * (1 - percentageVx))); //totalVelo-percentageVx==percentageVy
-                setVelocity(collide.collisionObject().hit(collide.collisionPoint(), v));
+                setVelocity(collide.collisionObject().hit(this,collide.collisionPoint(), v));           //check
                 v = new Velocity(newVx, newVy);
             }
         }
@@ -239,5 +239,9 @@ public class Ball implements Sprite {
      */
     public void addToGame(Game g) {
         g.addSprite(this);
+    }
+
+    public void removeFromGame(Game game) {
+        game.removeSprite(this);
     }
 }

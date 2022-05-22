@@ -31,6 +31,10 @@ public class GameEnvironment {
         gameEnviro.addAll(c);
     }
 
+    public void removeCollidable(Collidable c) {
+        gameEnviro.remove(c);
+    }
+
     /**
      * gets the closest collision and its info-collisionInfo.
      * @param trajectory the way to ball will advance.
