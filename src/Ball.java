@@ -104,11 +104,10 @@ public class Ball implements Sprite {
         surface.setColor(colors);
         surface.fillCircle(getX(), getY(), radius);
 
-        if (hitMe != null)
-        {
-            surface.drawLine ((int)last.getX(), (int)last.getY(), (int)hitMe.getX(), (int)hitMe.getY());
-            surface.drawCircle((int)hitMe.getX(), (int)hitMe.getY(), 20);
-        }
+        //  if (hitMe != null) {
+        //    surface.drawLine((int) last.getX(), (int) last.getY(), (int) hitMe.getX(), (int) hitMe.getY());
+        //    surface.drawCircle((int) hitMe.getX(), (int) hitMe.getY(), 20);
+        //  }
     }
 
     /**
@@ -203,9 +202,9 @@ public class Ball implements Sprite {
         //System.out.println(collide.collisionPoint());
 
         if (collide != null) {
-            if (((this.locat.distance(collide.collisionPoint())) <= 3)){
-              //      && (this.locat.distance(collide.collisionPoint()) >= 0)) {
-                v = collide.collisionObject().hit(this,collide.collisionPoint(), v);              //check
+            if (((this.locat.distance(collide.collisionPoint())) <= 3)) {
+                //      && (this.locat.distance(collide.collisionPoint()) >= 0)) {
+                v = collide.collisionObject().hit(this, collide.collisionPoint(), v);              //check
 
                 setVelocity(v);
                 //System.out.println("inter close" + v.toString());
@@ -218,7 +217,7 @@ public class Ball implements Sprite {
                 double newVy =
                         ((v.getVy() < 0 ? -1 : 1) * ((this.locat.distance(collide.collisionPoint()) - 2)
                                 * (1 - percentageVx))); //totalVelo-percentageVx==percentageVy
-                setVelocity(collide.collisionObject().hit(this,collide.collisionPoint(), v));           //check
+                setVelocity(collide.collisionObject().hit(this, collide.collisionPoint(), v));           //check
                 v = new Velocity(newVx, newVy);
             }
         }
@@ -235,12 +234,17 @@ public class Ball implements Sprite {
     /**
      * adding ball sprite to the game.
      *
-     * @param g the game.
+     * @param game the game.
      */
-    public void addToGame(Game g) {
-        g.addSprite(this);
+    public void addToGame(Game game) {
+        game.addSprite(this);
     }
 
+    /**
+     * removing ball sprite from the game.
+     *
+     * @param game
+     */
     public void removeFromGame(Game game) {
         game.removeSprite(this);
     }

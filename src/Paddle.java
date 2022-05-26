@@ -16,7 +16,8 @@ public class Paddle implements Sprite, Collidable {
 
     /**
      * setting the limits for the paddle.
-     * @param limitLeft left limit (x).
+     *
+     * @param limitLeft  left limit (x).
      * @param limitRight right limit (x).
      */
     public void setLimits(int limitLeft, int limitRight) {
@@ -26,8 +27,9 @@ public class Paddle implements Sprite, Collidable {
 
     /**
      * constructor.
+     *
      * @param paddle the paddle, which is a rectangle.
-     * @param gui the gui for the paddle (and game).
+     * @param gui    the gui for the paddle (and game).
      */
     public Paddle(Rectangle paddle, GUI gui) {
         this.paddle = paddle;
@@ -78,6 +80,7 @@ public class Paddle implements Sprite, Collidable {
 
     /**
      * drawing the paddle on the draw surface.
+     *
      * @param d the draw surface.
      */
     public void drawOn(DrawSurface d) {
@@ -92,24 +95,22 @@ public class Paddle implements Sprite, Collidable {
     /**
      * part of collidable implementation.
      * gets the paddle rectangle- which is also a collidable.
+     *
      * @return the paddle.
      */
     public Rectangle getCollisionRectangle() {
         return paddle;
     }
 
-//    @Override
-//    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
-//        return null;
-//    }
-
     /**
      * the hit method of the block.
-     * @param collisionPoint where it's expected to collide.
+     *
+     * @param hitter the ball that made the hit happen.
+     * @param collisionPoint  where it's expected to collide.
      * @param currentVelocity the current velocity.
      * @return the new velocity of the ball.
      */
-    public Velocity hit(Ball hitter,Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
         Double newVx = currentVelocity.getVx();
         Double newVy = currentVelocity.getVy();
         Point rectLeft = getCollisionRectangle().getUpperLeft();
@@ -129,6 +130,7 @@ public class Paddle implements Sprite, Collidable {
 
     /**
      * Add this paddle to the game.
+     *
      * @param g the game.
      */
     public void addToGame(Game g) {

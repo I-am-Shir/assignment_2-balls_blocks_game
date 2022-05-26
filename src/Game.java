@@ -5,22 +5,24 @@ import biuoop.Sleeper;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
  * creating the game.
  */
-public class Game {
-    private List<HitListener> hitListeners;
+public class Game implements Animation {
     private SpriteCollection sprites = new SpriteCollection();
     private GameEnvironment environment = new GameEnvironment();
     private GUI gui;
-    private PrintingHitListener eventListener = new PrintingHitListener();
     private Counter blockCounter = new Counter();
     private Counter ballCounter = new Counter();
     private BlockRemover blockRemover = new BlockRemover(this, blockCounter);
     private BallRemover ballRemover = new BallRemover(this, ballCounter);
+    private Counter score = new Counter();
+    private ScoreTrackingListener scoreTracking = new ScoreTrackingListener(score);
+    private ScoreIndicator scoreIndicator = new ScoreIndicator(score);
+    private AnimationRunner runner = new AnimationRunner();
+    private boolean running;
 
     /**
      * adding a collidable to the environment.
@@ -41,12 +43,19 @@ public class Game {
         sprites.addSprite(s);
     }
 
-    public void removeCollidable(Collidable c){
+    /**
+     * removing a collidable.
+     * @param c the collidable to be removed.
+     */
+    public void removeCollidable(Collidable c) {
         environment.removeCollidable(c);
     }
-
-    public void removeSprite(Sprite s){
-    sprites.removeSprite(s);
+    /**
+     * removing a sprite.
+     * @param s the sprite to be removed.
+     */
+    public void removeSprite(Sprite s) {
+        sprites.removeSprite(s);
     }
 
     private Color getRandomColor() {
@@ -57,21 +66,22 @@ public class Game {
 
     private ArrayList<Block> createRow(Point beginningLeft, int numberOfBlocks, int width, int height,
                                        int distance, Color color) {
-        ArrayList<Block> row = new ArrayList<Block>();
+        ArrayList<Block> row = new ArrayList<>();
         for (int i = 0; i < numberOfBlocks; i++) {
-          Block added =  new Block(
+            Block added = new Block(
                     new Rectangle(new Point(beginningLeft.getX() + (width * i) + distance, beginningLeft.getY()), width,
                             height, color));
-          added.addHitListener(blockRemover);
+            added.addHitListener(blockRemover);
+            added.addHitListener(scoreTracking);
             row.add(added);
-           this.blockCounter.increase(1);
+            this.blockCounter.increase(1);
         }
         return row;
     }
 
     private ArrayList<Block> createWallStairs(Point upperLeft, int numberRows, int distance, int longestRow,
                                               int width, int height) {
-        ArrayList<Block> wall = new ArrayList<Block>();
+        ArrayList<Block> wall = new ArrayList<>();
         for (int i = 0; i < numberRows; i++) {
             wall.addAll(createRow(new Point(upperLeft.getX() + (width * i), upperLeft.getY() + (height * i)
                             + distance * i), longestRow - i, width, height, distance,
@@ -82,14 +92,14 @@ public class Game {
     }
 
     private ArrayList<Block> frame(int widthSurface, int heightSurface, int size) {
-        ArrayList<Block> frame = new ArrayList<Block>();
-        frame.add(new Block(new Rectangle(new Point(0, 0), widthSurface, size, Color.CYAN))); //top.
-      //  frame.add(
-       //         new Block(new Rectangle(new Point(0, heightSurface - size), widthSurface, size, Color.CYAN))); //bottom.
-        frame.add(new Block(new Rectangle(new Point(0, 0), size, heightSurface, Color.CYAN))); //left
-        frame.add(new Block(new Rectangle(new Point(widthSurface - size, 0), size, heightSurface, Color.CYAN))); //right
-       Block deathRegion =  new Block(new Rectangle(new Point(0, heightSurface - size), widthSurface, size, Color.CYAN)); //deathRegion.
-               frame.add(deathRegion);
+        ArrayList<Block> frame = new ArrayList<>();
+        frame.add(new Block(new Rectangle(new Point(0, 25), widthSurface, size, Color.CYAN))); //top.
+        frame.add(new Block(new Rectangle(new Point(0, 25), size, heightSurface, Color.CYAN))); //left
+        frame.add(
+                new Block(new Rectangle(new Point(widthSurface - size, 25), size, heightSurface, Color.CYAN))); //right
+        Block deathRegion = new Block(
+                new Rectangle(new Point(0, heightSurface - 1), widthSurface, 1, Color.magenta)); //deathRegion.
+        frame.add(deathRegion);
         deathRegion.addHitListener(ballRemover);
         return frame;
     }
@@ -103,15 +113,15 @@ public class Game {
         int height = 600;
         int size = width / 60;
         int blockHeight = height / 50;
-        int paddleWidth = width / 12;
-        int paddleHeight = height / 40;
+        int paddleWidth = width / 10;
+        int paddleHeight = height / 60;
 
         gui = new GUI("DESTROY!!!", width, height);
-        Ball ball1 = new Ball(width / 2, (height / 3) * 2, size / 3, new Velocity(15, -3), Color.GREEN);
+        Ball ball1 = new Ball(width / 2, (height / 3) * 2, size / 2, new Velocity(9, 3), Color.GREEN);
         ballCounter.increase(1);
-        Ball ball2 = new Ball(width / 2, (height / 3) * 2, size / 3, new Velocity(5, -10), Color.pink);
+        Ball ball2 = new Ball(width / 2, (height / 3) * 2, size / 2, new Velocity(-5, -5), Color.pink);
         ballCounter.increase(1);
-        Ball ball3 = new Ball(width / 2, (height / 3) * 2, size / 3, new Velocity(10, -4), Color.red);
+        Ball ball3 = new Ball(width / 2, (height / 3) * 2, size / 2, new Velocity(10, -4), Color.red);
         ballCounter.increase(1);
         Paddle paddle = new Paddle(
                 new Rectangle(new Point(width / 2 - paddleWidth / 2, height - size - paddleHeight - 2), paddleWidth,
@@ -133,44 +143,17 @@ public class Game {
         paddle.addToGame(this);
     }
 
-    /**
-     * Run the game -- start the animation loop.
-     */
-    public void run() {
-        int framesPerSecond = 30;
-        int millisecondsPerFrame = 1000 / framesPerSecond;
-        KeyboardSensor keyboard = gui.getKeyboardSensor();
 
-        while (true) {
-            long startTime = System.currentTimeMillis(); // timing
+    @Override
+    public void doOneFrame(DrawSurface d) {
+        this.sprites.drawAllOn(d);
+        this.scoreIndicator.drawOn(d);
+        gui.show(d);
+        this.sprites.notifyAllTimePassed();
+    }
 
-            DrawSurface d = gui.getDrawSurface();
-
-            this.sprites.drawAllOn(d);
-            gui.show(d);
-            this.sprites.notifyAllTimePassed();
-
-            // timing
-            Sleeper sleeper = new Sleeper();
-            long usedTime = System.currentTimeMillis() - startTime;
-            long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
-            if (milliSecondLeftToSleep > 0) {
-                sleeper.sleepFor(milliSecondLeftToSleep);
-            }
-
-            int resume = 0;
-            if (keyboard.isPressed("w")) {
-                while (resume == 0) {
-                    if (keyboard.isPressed("s")) {
-                        resume = 1;
-                    }
-                }
-            }
-
-            if (blockCounter.getValue() <= 0 || ballCounter.getValue() <= 0) {
-                gui.close();
-                return;
-            }
-        }
+    @Override
+    public boolean shouldStop() {
+        return !this.running;
     }
 }

@@ -1,9 +1,10 @@
 /**
  * main.
  */
-public class Ass3Game {
+public class Ass5Game {
     /**
      * running the main.
+     *
      * @param args not used.
      */
     public static void main(String[] args) {

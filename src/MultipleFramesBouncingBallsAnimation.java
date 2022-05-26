@@ -59,7 +59,8 @@ public class MultipleFramesBouncingBallsAnimation {
         for (; i < args.length / 2; i++) {
             int size = Integer.parseInt(args[i]);
             juggle[i] =
-                    new Ball(rand.nextInt(500 - 50 - size) + 50 + size, rand.nextInt(500 - 50 - size) + 50 + size, size, new Velocity(1,1),
+                    new Ball(rand.nextInt(500 - 50 - size) + 50 + size, rand.nextInt(500 - 50 - size) + 50 + size, size,
+                            new Velocity(1, 1),
                             colors[rand.nextInt(colors.length)]);
             juggle[i].setVelocity(Velocity.fromAngleAndSpeed(rand.nextInt(360), (50 - size > 0 ? 50 - size : 1)));
             juggle[i].setLimit(500, 500, 50, 50);
@@ -67,7 +68,7 @@ public class MultipleFramesBouncingBallsAnimation {
         for (; i < args.length; i++) {
             int size = Integer.parseInt(args[i]);
             juggle[i] = new Ball(rand.nextInt(600 - 450 - size) + 450
-                    + size, rand.nextInt(600 - 450 - size) + 450 + size, size, new Velocity(1,1),
+                    + size, rand.nextInt(600 - 450 - size) + 450 + size, size, new Velocity(1, 1),
                     colors[rand.nextInt(colors.length)]);
             juggle[i].setVelocity(Velocity.fromAngleAndSpeed(rand.nextInt(360), (50 - size > 0 ? 50 - size : 1)));
             juggle[i].setLimit(600, 600, 450, 450);

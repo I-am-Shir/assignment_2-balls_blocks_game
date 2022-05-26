@@ -25,12 +25,16 @@ public class GameEnvironment {
 
     /**
      * adding a couple of collidables.
-     * @param c the arraylist to add.
+     * @param c the arraylist of collidables to add.
      */
     public void addManyCollidable(ArrayList<? extends Collidable> c) {
         gameEnviro.addAll(c);
     }
 
+    /**
+     * removing a couple of collidables.
+     * @param c the arraylist of collidables to remove.
+     */
     public void removeCollidable(Collidable c) {
         gameEnviro.remove(c);
     }

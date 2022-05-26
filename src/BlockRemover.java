@@ -2,18 +2,25 @@
  * a BlockRemover is in charge of removing blocks from the game,
  * as well as keeping count of the number of blocks that remain.
  */
-public class BlockRemover implements HitListener{
+public class BlockRemover implements HitListener {
     private Game game;
     private Counter remainingBlocks;
 
+    /**
+     * constructs he amount of blocks remaining in the game.
+     * @param game the game.
+     * @param remainingBlocks the remaining blocks that can be removed.
+     */
     public BlockRemover(Game game, Counter remainingBlocks) {
         this.game = game;
         this.remainingBlocks = remainingBlocks;
     }
 
-    // Blocks that are hit should be removed
-    // from the game. Remember to remove this listener from the block
-    // that is being removed from the game.
+    /**
+     * blocks that got hit are removed.
+     * @param beingHit the block that got hit.
+     * @param hitter the ball that hit it.
+     */
     @Override
     public void hitEvent(Block beingHit, Ball hitter) {
         beingHit.removeFromGame(game);

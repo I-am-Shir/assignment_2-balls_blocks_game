@@ -1,4 +1,5 @@
 import biuoop.DrawSurface;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
  * the block class which implements collidable and sprite.
  */
 public class Block implements Collidable, Sprite, HitNotifier {
-    List<HitListener> hitListeners = new ArrayList<HitListener>();
+    private List<HitListener> hitListeners = new ArrayList<HitListener>();
     private Rectangle collide;
 
     /**
@@ -106,11 +107,21 @@ public class Block implements Collidable, Sprite, HitNotifier {
         }
     }
 
+    /**
+     * adding a listener.
+     *
+     * @param hl the listener added.
+     */
     @Override
     public void addHitListener(HitListener hl) {
         hitListeners.add(hl);
     }
 
+    /**
+     * removing a listener.
+     *
+     * @param hl the listener removed.
+     */
     @Override
     public void removeHitListener(HitListener hl) {
         hitListeners.remove(hl);
