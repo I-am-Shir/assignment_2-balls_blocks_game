@@ -5,49 +5,29 @@ import biuoop.Sleeper;
 
 public class AnimationRunner {
     private GUI gui;
-    private int framesPerSecond;
+    private int framesPerSecond = 60;
 //    private SpriteCollection sprites = new SpriteCollection();
 //    private Counter blockCounter = new Counter();
 //    private Counter ballCounter = new Counter();
 //    private Counter score = new Counter();
 //    private ScoreIndicator scoreIndicator = new ScoreIndicator(score);
-    public AnimationRunner() {
+    public AnimationRunner(int framesPerSecond, GUI gui) {
+        this.framesPerSecond = framesPerSecond;
+        this.gui = gui;
+
     }
-
-
-    /**
-     * game-specific logic
-     *
-     * @param d the draw surface.
-     */
-
-    public boolean shouldStop() {
-        if (blockCounter.getValue() <= 0) {
-            score.increase(100);
-            gui.close();
-            return true;
-        }
-        if (ballCounter.getValue() <= 0) {
-            gui.close();
-            return true;
-        }
-        return false;
 
         /**
          * Run the game -- start the animation loop.
          */
-        public void run () {
-            int framesPerSecond = 30;
+        public void run (Animation animation) {
             int millisecondsPerFrame = 1000 / framesPerSecond;
-            KeyboardSensor keyboard = gui.getKeyboardSensor();
 
-            while (!shouldStop()) {
-
-                long startTime = System.currentTimeMillis(); // timing
+            while (!animation.shouldStop()) {
+                long startTime = System.currentTimeMillis();
                 DrawSurface d = gui.getDrawSurface();
 
-                this.doOneFrame(d);
-
+                animation.doOneFrame(d);
 
                 // timing
                 Sleeper sleeper = new Sleeper();
@@ -56,16 +36,6 @@ public class AnimationRunner {
                 if (milliSecondLeftToSleep > 0) {
                     sleeper.sleepFor(milliSecondLeftToSleep);
                 }
-
-                int resume = 0;
-                if (keyboard.isPressed("w")) {
-                    while (resume == 0) {
-                        if (keyboard.isPressed("s")) {
-                            resume = 1;
-                        }
-                    }
-                }
             }
         }
-    }
 }

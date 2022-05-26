@@ -21,7 +21,7 @@ public class Game implements Animation {
     private Counter score = new Counter();
     private ScoreTrackingListener scoreTracking = new ScoreTrackingListener(score);
     private ScoreIndicator scoreIndicator = new ScoreIndicator(score);
-    private AnimationRunner runner = new AnimationRunner();
+    private AnimationRunner runner;
     private boolean running;
 
     /**
@@ -117,6 +117,7 @@ public class Game implements Animation {
         int paddleHeight = height / 60;
 
         gui = new GUI("DESTROY!!!", width, height);
+        this.runner = new AnimationRunner(60, gui);
         Ball ball1 = new Ball(width / 2, (height / 3) * 2, size / 2, new Velocity(9, 3), Color.GREEN);
         ballCounter.increase(1);
         Ball ball2 = new Ball(width / 2, (height / 3) * 2, size / 2, new Velocity(-5, -5), Color.pink);
@@ -143,17 +144,48 @@ public class Game implements Animation {
         paddle.addToGame(this);
     }
 
-
+    /**
+     * game-specific logic
+     *
+     * @param d the draw surface.
+     */
     @Override
     public void doOneFrame(DrawSurface d) {
+        KeyboardSensor keyboard = gui.getKeyboardSensor();
+        // timing
+        d = gui.getDrawSurface();
         this.sprites.drawAllOn(d);
         this.scoreIndicator.drawOn(d);
         gui.show(d);
         this.sprites.notifyAllTimePassed();
+        if (keyboard.isPressed("p")) {
+            this.runner.run(new PauseScreen(keyboard));
+        }
     }
-
+    /**
+     * returns if the game should stop,
+     * @return true to stop false to continue.
+     */
     @Override
     public boolean shouldStop() {
         return !this.running;
+//        if (blockCounter.getValue() <= 0) {
+//            score.increase(100);
+//            gui.close();
+//            return true;
+//        }
+//        if (ballCounter.getValue() <= 0) {
+//            gui.close();
+//            return true;
+//        }
+//        return false;
+    }
+
+    public void run (){
+      //  this.runner.run(new CountdownAnimation(2,3,this.sprites)); // countdown before turn starts.
+        //makes the running loop until the game is finished.
+        this.running = true;
+        this.runner.run(this);
+        initialize();
     }
 }
