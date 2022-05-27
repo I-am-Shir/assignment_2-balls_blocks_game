@@ -1,4 +1,5 @@
 import biuoop.DrawSurface;
+import javax.swing.Timer;
 // The CountdownAnimation will display the given gameScreen,
 // for numOfSeconds seconds, and on top of them it will show
 // a countdown from countFrom back to 1, where each number will
@@ -8,6 +9,7 @@ public class CountdownAnimation implements Animation{
     private double numOfSecond;
     private int countFrom;
     private  SpriteCollection gameScreen;
+    private Timer timer;
 
     /**
      * constructor. for count down screen.
@@ -18,6 +20,7 @@ public class CountdownAnimation implements Animation{
     public CountdownAnimation(double numOfSeconds,
                               int countFrom,
                               SpriteCollection gameScreen){
+        //this.timer = new Timer(numOfSeconds,this.timer);
         this.numOfSecond = numOfSeconds;
         this.countFrom = countFrom;
         this.gameScreen = gameScreen;

@@ -5,12 +5,14 @@ import biuoop.Sleeper;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * creating the game.
  */
-public class Game implements Animation {
+public class Game {
+    private List<HitListener> hitListeners;
     private SpriteCollection sprites = new SpriteCollection();
     private GameEnvironment environment = new GameEnvironment();
     private GUI gui;
@@ -21,8 +23,6 @@ public class Game implements Animation {
     private Counter score = new Counter();
     private ScoreTrackingListener scoreTracking = new ScoreTrackingListener(score);
     private ScoreIndicator scoreIndicator = new ScoreIndicator(score);
-    private AnimationRunner runner;
-    private boolean running;
 
     /**
      * adding a collidable to the environment.
@@ -66,7 +66,7 @@ public class Game implements Animation {
 
     private ArrayList<Block> createRow(Point beginningLeft, int numberOfBlocks, int width, int height,
                                        int distance, Color color) {
-        ArrayList<Block> row = new ArrayList<>();
+        ArrayList<Block> row = new ArrayList<Block>();
         for (int i = 0; i < numberOfBlocks; i++) {
             Block added = new Block(
                     new Rectangle(new Point(beginningLeft.getX() + (width * i) + distance, beginningLeft.getY()), width,
@@ -81,7 +81,7 @@ public class Game implements Animation {
 
     private ArrayList<Block> createWallStairs(Point upperLeft, int numberRows, int distance, int longestRow,
                                               int width, int height) {
-        ArrayList<Block> wall = new ArrayList<>();
+        ArrayList<Block> wall = new ArrayList<Block>();
         for (int i = 0; i < numberRows; i++) {
             wall.addAll(createRow(new Point(upperLeft.getX() + (width * i), upperLeft.getY() + (height * i)
                             + distance * i), longestRow - i, width, height, distance,
@@ -92,7 +92,7 @@ public class Game implements Animation {
     }
 
     private ArrayList<Block> frame(int widthSurface, int heightSurface, int size) {
-        ArrayList<Block> frame = new ArrayList<>();
+        ArrayList<Block> frame = new ArrayList<Block>();
         frame.add(new Block(new Rectangle(new Point(0, 25), widthSurface, size, Color.CYAN))); //top.
         frame.add(new Block(new Rectangle(new Point(0, 25), size, heightSurface, Color.CYAN))); //left
         frame.add(
@@ -117,7 +117,6 @@ public class Game implements Animation {
         int paddleHeight = height / 60;
 
         gui = new GUI("DESTROY!!!", width, height);
-        this.runner = new AnimationRunner(60, gui);
         Ball ball1 = new Ball(width / 2, (height / 3) * 2, size / 2, new Velocity(9, 3), Color.GREEN);
         ballCounter.increase(1);
         Ball ball2 = new Ball(width / 2, (height / 3) * 2, size / 2, new Velocity(-5, -5), Color.pink);
@@ -145,47 +144,49 @@ public class Game implements Animation {
     }
 
     /**
-     * game-specific logic
-     *
-     * @param d the draw surface.
+     * Run the game -- start the animation loop.
      */
-    @Override
-    public void doOneFrame(DrawSurface d) {
-        KeyboardSensor k = gui.getKeyboardSensor();
-        // drawing.
-        d = gui.getDrawSurface();
-        this.sprites.drawAllOn(d);
-        this.scoreIndicator.drawOn(d);
-        this.sprites.notifyAllTimePassed();
-        gui.show(d);
-        if (k.isPressed("p")) {
-            this.runner.run(new PauseScreen(this.gui,k));
-        }
-    }
-    /**
-     * returns if the game should stop,
-     * @return true to stop false to continue.
-     */
-    @Override
-    public boolean shouldStop() {
-       // return !this.running;
-        if (blockCounter.getValue() <= 0) {
-            score.increase(100);
-            gui.close();
-            return true;
-        }
-        if (ballCounter.getValue() <= 0) {
-            gui.close();
-            return true;
-        }
-        return false;
-    }
+    public void run() {
+        int framesPerSecond = 30;
+        int millisecondsPerFrame = 1000 / framesPerSecond;
+        KeyboardSensor keyboard = gui.getKeyboardSensor();
 
-    public void run (){
-      //  this.runner.run(new CountdownAnimation(2000,3,this.sprites)); // countdown before turn starts.
-        //makes the running loop until the game is finished.
-        this.running = true;
-        this.runner.run(this);
-        initialize();
+        while (true) {
+
+            long startTime = System.currentTimeMillis(); // timing
+            DrawSurface d = gui.getDrawSurface();
+            this.sprites.drawAllOn(d);
+            this.scoreIndicator.drawOn(d);
+            gui.show(d);
+            this.sprites.notifyAllTimePassed();
+
+
+            // timing
+            Sleeper sleeper = new Sleeper();
+            long usedTime = System.currentTimeMillis() - startTime;
+            long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
+            if (milliSecondLeftToSleep > 0) {
+                sleeper.sleepFor(milliSecondLeftToSleep);
+            }
+
+            int resume = 0;
+            if (keyboard.isPressed("w")) {
+                while (resume == 0) {
+                    if (keyboard.isPressed("s")) {
+                        resume = 1;
+                    }
+                }
+            }
+
+            if (blockCounter.getValue() <= 0) {
+                score.increase(100);
+                gui.close();
+                return;
+            }
+            if (ballCounter.getValue() <= 0) {
+                gui.close();
+                return;
+            }
+        }
     }
 }
