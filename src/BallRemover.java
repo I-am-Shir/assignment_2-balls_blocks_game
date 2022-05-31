@@ -2,7 +2,7 @@
  * a ball remover listener build.
  */
 public class BallRemover implements HitListener {
-    private Game game;
+    private GameLevel game;
     private Counter remainingBalls;
 
     /**
@@ -10,7 +10,7 @@ public class BallRemover implements HitListener {
      * @param game the game its in.
      * @param remainingBalls keeps track of the anount of balls in the game.
      */
-    public BallRemover(Game game, Counter remainingBalls) {
+    public BallRemover(GameLevel game, Counter remainingBalls) {
         this.game = game;
         this.remainingBalls = remainingBalls;
     }

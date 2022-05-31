@@ -1,12 +1,13 @@
 import biuoop.DrawSurface;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * a collection of sprites.
  */
 public class SpriteCollection {
-    private ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+    private List<Sprite> sprites = new ArrayList<Sprite>();
 
     /**
      * adding a sprite to the collection.
@@ -31,7 +32,7 @@ public class SpriteCollection {
      *
      * @param s an array list of sprites we want to add.
      */
-    public void addManySprite(ArrayList<? extends Sprite> s) {
+    public void addManySprite(List<? extends Sprite> s) {
         sprites.addAll(s);
     }
 
@@ -39,7 +40,8 @@ public class SpriteCollection {
      * calls timePassed() on all sprites.
      */
     public void notifyAllTimePassed() {
-        ArrayList<Sprite> sprites = new ArrayList<Sprite>(this.sprites);
+       // List<Sprite> sprites = this.sprites;
+        List<Sprite> sprites = new ArrayList<Sprite>(this.sprites);
         for (Sprite s : sprites) {
             s.timePassed();
         }

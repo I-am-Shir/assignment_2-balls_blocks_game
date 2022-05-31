@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * the game environment class.
@@ -27,7 +28,7 @@ public class GameEnvironment {
      * adding a couple of collidables.
      * @param c the arraylist of collidables to add.
      */
-    public void addManyCollidable(ArrayList<? extends Collidable> c) {
+    public void addManyCollidable(List<? extends Collidable> c) {
         gameEnviro.addAll(c);
     }
 

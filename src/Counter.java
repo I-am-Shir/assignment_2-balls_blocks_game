@@ -2,7 +2,11 @@
  * a simple class that is used for counting things.
  */
 public class Counter {
-    private int counter = 0;
+    private int counter;
+
+    public Counter(int blockNum){
+        this.counter = blockNum;
+    }
 
     // add number to current count.
     void increase(int number) {

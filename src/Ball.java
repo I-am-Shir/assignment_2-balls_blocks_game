@@ -236,7 +236,7 @@ public class Ball implements Sprite {
      *
      * @param game the game.
      */
-    public void addToGame(Game game) {
+    public void addToGame(GameLevel game) {
         game.addSprite(this);
     }
 
@@ -245,7 +245,7 @@ public class Ball implements Sprite {
      *
      * @param game
      */
-    public void removeFromGame(Game game) {
+    public void removeFromGame(GameLevel game) {
         game.removeSprite(this);
     }
 }

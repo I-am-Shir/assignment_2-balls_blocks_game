@@ -81,7 +81,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
      *
      * @param g the game.
      */
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
         g.addCollidable(this);
     }
@@ -92,15 +92,15 @@ public class Block implements Collidable, Sprite, HitNotifier {
      *
      * @param game the game were working on.
      */
-    public void removeFromGame(Game game) {
-        game.removeSprite(this);
+    public void removeFromGame(GameLevel game) {
         game.removeCollidable(this);
-
+        game.removeSprite(this);
     }
 
     private void notifyHit(Ball hitter) {
         // Make a copy of the hitListeners before iterating over them.
         List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);
+        System.out.println("hit" + this);
         // Notify all listeners about a hit event:
         for (HitListener hl : listeners) {
             hl.hitEvent(this, hitter);

@@ -15,6 +15,19 @@ public class Velocity {
     private double vy;
 
     /**
+     * constructor
+     * receives two doubles, representing x&y.
+     *
+     * @param dx x variable
+     * @param dy y variable
+     */
+
+    public Velocity(double dx, double dy) {
+        this.vx = dx;
+        this.vy = dy;
+    }
+
+    /**
      * methods for getting the value of velocity x.
      *
      * @return returns the x value.
@@ -59,19 +72,6 @@ public class Velocity {
         double dx = speed * Math.cos(TO_RAD * angle);
         double dy = speed * Math.sin(TO_RAD * angle);
         return new Velocity(dx, dy);
-    }
-
-    /**
-     * constructor
-     * receives two doubles, representing x&y.
-     *
-     * @param dx x variable
-     * @param dy y variable
-     */
-
-    public Velocity(double dx, double dy) {
-        this.vx = dx;
-        this.vy = dy;
     }
 
     /**

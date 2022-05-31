@@ -1,7 +1,6 @@
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.KeyboardSensor;
-import biuoop.Sleeper;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -10,19 +9,35 @@ import java.util.Random;
 /**
  * creating the game.
  */
-public class Game implements Animation {
-    private SpriteCollection sprites = new SpriteCollection();
-    private GameEnvironment environment = new GameEnvironment();
+public class GameLevel implements Animation {
+    private SpriteCollection sprites;
+    private GameEnvironment environment;
     private GUI gui;
-    private Counter blockCounter = new Counter();
-    private Counter ballCounter = new Counter();
-    private BlockRemover blockRemover = new BlockRemover(this, blockCounter);
-    private BallRemover ballRemover = new BallRemover(this, ballCounter);
-    private Counter score = new Counter();
-    private ScoreTrackingListener scoreTracking = new ScoreTrackingListener(score);
-    private ScoreIndicator scoreIndicator = new ScoreIndicator(score);
+    private Counter blockCounter;
+    private Counter ballCounter;
+    private BlockRemover blockRemover;
+    private BallRemover ballRemover;
+    private Counter score;
+    private ScoreTrackingListener scoreTracking;
+    private ScoreIndicator scoreIndicator;
     private AnimationRunner runner;
     private boolean running;
+    private int lives;
+    private String levelGame;
+    private LevelInformation levelInfo;
+
+    public GameLevel (LevelInformation levelInfo,Counter score){
+        sprites = new SpriteCollection();
+        environment = new GameEnvironment();
+        blockCounter = new Counter(levelInfo.blocks().size());
+        ballCounter = new Counter(levelInfo.numberOfBalls());
+        blockRemover = new BlockRemover(this, blockCounter);
+        ballRemover = new BallRemover(this, ballCounter);
+       this.score = score;
+        scoreTracking = new ScoreTrackingListener(score);
+        this.levelInfo = levelInfo;
+        scoreIndicator = new ScoreIndicator(score,lives,this.levelInfo.levelName());
+    }
 
     /**
      * adding a collidable to the environment.
@@ -74,7 +89,7 @@ public class Game implements Animation {
             added.addHitListener(blockRemover);
             added.addHitListener(scoreTracking);
             row.add(added);
-            this.blockCounter.increase(1);
+        //    this.blockCounter.increase(1);
         }
         return row;
     }
@@ -113,34 +128,42 @@ public class Game implements Animation {
         int height = 600;
         int size = width / 60;
         int blockHeight = height / 50;
-        int paddleWidth = width / 10;
+        int paddleWidth = this.levelInfo.paddleWidth();
         int paddleHeight = height / 60;
 
         gui = new GUI("DESTROY!!!", width, height);
         this.runner = new AnimationRunner(60, gui);
-        Ball ball1 = new Ball(width / 2, (height / 3) * 2, size / 2, new Velocity(9, 3), Color.GREEN);
-        ballCounter.increase(1);
-        Ball ball2 = new Ball(width / 2, (height / 3) * 2, size / 2, new Velocity(-5, -5), Color.pink);
-        ballCounter.increase(1);
-        Ball ball3 = new Ball(width / 2, (height / 3) * 2, size / 2, new Velocity(10, -4), Color.red);
-        ballCounter.increase(1);
+
         Paddle paddle = new Paddle(
-                new Rectangle(new Point(width / 2 - paddleWidth / 2, height - size - paddleHeight - 2), paddleWidth,
+                new Rectangle(new Point(width / 2 - paddleWidth / 2, height - size - paddleHeight - 2), levelInfo.paddleWidth(),
                         paddleHeight, Color.magenta), gui);
         paddle.setLimits(size, width - size);
-        ArrayList<Block> wall = createWallStairs(new Point(width - size - 12 * (width / 16) - 3, size + 100),
-                height / 100, 1, height / 50, width / 16, blockHeight); //desired row? check
+//        ArrayList<Block> wall = createWallStairs(new Point(width - size - 12 * (width / 16) - 3, size + 100),
+//                height / 100, 1, height / 50, width / 16, blockHeight); //desired row? check
         ArrayList<Block> frame = frame(width, height, size);
         environment.addManyCollidable(frame);
-        environment.addManyCollidable(wall);
+        for (int i = 0; i < levelInfo.numberOfBlocksToRemove(); i++) {
+            levelInfo.blocks().get(i).addToGame(this);
+            levelInfo.blocks().get(i).addHitListener(this.blockRemover);
+            levelInfo.blocks().get(i).addHitListener(this.scoreTracking);
+        }
+
+        environment.addManyCollidable(levelInfo.blocks());
         sprites.addManySprite(frame);
-        sprites.addManySprite(wall);
-        ball1.addToGame(this);
-        ball1.setGameEnvironment(environment);
-        ball2.addToGame(this);
-        ball2.setGameEnvironment(environment);
-        ball3.addToGame(this);
-        ball3.setGameEnvironment(environment);
+        sprites.addManySprite(levelInfo.blocks());
+
+        for (int i = 0; i < this.levelInfo.numberOfBalls(); i++) {
+            Ball ball = new Ball(width / 2, (height / 3) * 2, size / 2, levelInfo.initialBallVelocities().get(i), getRandomColor());
+            ballCounter.increase(1);
+            ball.addToGame(this);
+            ball.setGameEnvironment(environment);
+        }
+//        ball1.addToGame(this);
+//        ball1.setGameEnvironment(environment);
+//        ball2.addToGame(this);
+//        ball2.setGameEnvironment(environment);
+//        ball3.addToGame(this);
+//        ball3.setGameEnvironment(environment);
         paddle.addToGame(this);
     }
 

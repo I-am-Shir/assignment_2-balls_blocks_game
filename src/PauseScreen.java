@@ -29,24 +29,28 @@ public class PauseScreen implements Animation {
 //        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
 //            this.stop = true;
 //        }
+//    }
         d.setColor(Color.CYAN);
-        d.fillRectangle(d.getWidth()/4,d.getHeight()/4,d.getWidth()/2,d.getHeight()/2);
+        d.fillRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
         d.setColor(Color.darkGray);
-        d.drawRectangle(d.getWidth()/4,d.getHeight()/4,d.getWidth()/2,d.getHeight()/2);
+        d.drawRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
         d.setColor(Color.gray);
-        d.fillRectangle(d.getWidth()/4+20,d.getHeight()/4+20,d.getWidth()/2-40,d.getHeight()/2-40);
+        d.fillRectangle(d.getWidth() / 4 + 20, d.getHeight() / 4 + 20, d.getWidth() / 2 - 40, d.getHeight() / 2 - 40);
         d.setColor(Color.white);
-        d.drawText(300+20, d.getHeight() / 2-80, "paused", 50);
-        d.drawText(300-70, d.getHeight() / 2, "press space to continue", 32);
+        d.drawText(300 + 20, d.getHeight() / 2 - 80, "paused", 50);
+        d.drawText(300 - 70, d.getHeight() / 2, "press space to continue", 32);
         this.gui.show(d);
-        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) { this.stop = true; }
+        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
+            this.stop = true;
+        }
+    }
 
 //        d.drawRectangle((int) pauseWindow.getUpperLeft().getX() - 1, (int) pauseWindow.getUpperLeft().getY() - 1,
 //                (int) pauseWindow.getWidth() + 1, (int) pauseWindow.getHeight() + 1);
 //        d.setColor(Color.CYAN);
 //        d.drawText(400, d.getHeight() / 2, "paused -- press space to continue", 32);
 //        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) { this.stop = true; }
-    }
+
 
     @Override
     public boolean shouldStop() {
