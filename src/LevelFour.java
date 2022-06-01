@@ -50,7 +50,7 @@ public class LevelFour implements LevelInformation{
 
     @Override
     public int numberOfBalls() {
-        return 3;
+        return initialBallVelocities().size();
     }
 
     @Override

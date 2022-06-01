@@ -57,7 +57,7 @@ public class LevelTwo implements LevelInformation{
 
     @Override
     public int numberOfBalls() {
-        return 10;
+        return initialBallVelocities().size();
     }
 
     @Override

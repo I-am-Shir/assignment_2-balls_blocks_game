@@ -23,7 +23,7 @@ public class LevelOne implements LevelInformation{
 
     @Override
     public int numberOfBalls() {
-        return 1;
+        return initialBallVelocities().size();
     }
 
     @Override

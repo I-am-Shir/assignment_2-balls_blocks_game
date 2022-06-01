@@ -26,7 +26,7 @@ public class GameLevel implements Animation {
     private String levelGame;
     private LevelInformation levelInfo;
 
-    public GameLevel (LevelInformation levelInfo,Counter score){
+    public GameLevel (LevelInformation levelInfo,KeyboardSensor ks,AnimationRunner ar,Counter score, Counter lives){
         sprites = new SpriteCollection();
         environment = new GameEnvironment();
         blockCounter = new Counter(levelInfo.blocks().size());
@@ -79,33 +79,6 @@ public class GameLevel implements Animation {
         return Color.getHSBColor(hSBvalue[0], hSBvalue[1], hSBvalue[2]);
     }
 
-    private ArrayList<Block> createRow(Point beginningLeft, int numberOfBlocks, int width, int height,
-                                       int distance, Color color) {
-        ArrayList<Block> row = new ArrayList<>();
-        for (int i = 0; i < numberOfBlocks; i++) {
-            Block added = new Block(
-                    new Rectangle(new Point(beginningLeft.getX() + (width * i) + distance, beginningLeft.getY()), width,
-                            height, color));
-            added.addHitListener(blockRemover);
-            added.addHitListener(scoreTracking);
-            row.add(added);
-        //    this.blockCounter.increase(1);
-        }
-        return row;
-    }
-
-    private ArrayList<Block> createWallStairs(Point upperLeft, int numberRows, int distance, int longestRow,
-                                              int width, int height) {
-        ArrayList<Block> wall = new ArrayList<>();
-        for (int i = 0; i < numberRows; i++) {
-            wall.addAll(createRow(new Point(upperLeft.getX() + (width * i), upperLeft.getY() + (height * i)
-                            + distance * i), longestRow - i, width, height, distance,
-                    getRandomColor()));
-        }
-
-        return wall;
-    }
-
     private ArrayList<Block> frame(int widthSurface, int heightSurface, int size,Color color) {
         ArrayList<Block> frame = new ArrayList<>();
         frame.add(new Block(new Rectangle(new Point(0, 25), widthSurface, size, color))); //top.
@@ -142,6 +115,7 @@ public class GameLevel implements Animation {
 //                height / 100, 1, height / 50, width / 16, blockHeight); //desired row? check
         ArrayList<Block> frame = frame(width, height, size,this.levelInfo.frameColor());
         environment.addManyCollidable(frame);
+
         for (int i = 0; i < levelInfo.numberOfBlocksToRemove(); i++) {
             levelInfo.blocks().get(i).addToGame(this);
             levelInfo.blocks().get(i).addHitListener(this.blockRemover);
@@ -156,6 +130,7 @@ public class GameLevel implements Animation {
 
         for (int i = 0; i < this.levelInfo.numberOfBalls(); i++) {
             Ball ball = new Ball(width / 2, (height / 3) * 2, size / 2, levelInfo.initialBallVelocities().get(i), getRandomColor());
+            HitListener ballRemover = new BallRemover(this,this.ballCounter);
             ballCounter.increase(1);
             ball.addToGame(this);
             ball.setGameEnvironment(environment);

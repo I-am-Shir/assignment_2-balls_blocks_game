@@ -58,7 +58,7 @@ public class LevelThree implements LevelInformation{
 
     @Override
     public int numberOfBalls() {
-        return 2;
+        return initialBallVelocities().size();
     }
 
     @Override
