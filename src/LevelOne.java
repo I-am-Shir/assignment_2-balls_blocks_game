@@ -60,4 +60,9 @@ public class LevelOne implements LevelInformation{
     public int numberOfBlocksToRemove() {
         return this.block.size();
     }
+
+    @Override
+    public Color frameColor() {
+        return Color.CYAN;
+    }
 }

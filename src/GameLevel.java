@@ -106,12 +106,12 @@ public class GameLevel implements Animation {
         return wall;
     }
 
-    private ArrayList<Block> frame(int widthSurface, int heightSurface, int size) {
+    private ArrayList<Block> frame(int widthSurface, int heightSurface, int size,Color color) {
         ArrayList<Block> frame = new ArrayList<>();
-        frame.add(new Block(new Rectangle(new Point(0, 25), widthSurface, size, Color.CYAN))); //top.
-        frame.add(new Block(new Rectangle(new Point(0, 25), size, heightSurface, Color.CYAN))); //left
+        frame.add(new Block(new Rectangle(new Point(0, 25), widthSurface, size, color))); //top.
+        frame.add(new Block(new Rectangle(new Point(0, 25), size, heightSurface, color))); //left
         frame.add(
-                new Block(new Rectangle(new Point(widthSurface - size, 25), size, heightSurface, Color.CYAN))); //right
+                new Block(new Rectangle(new Point(widthSurface - size, 25), size, heightSurface, color))); //right
         Block deathRegion = new Block(
                 new Rectangle(new Point(0, heightSurface - 1), widthSurface, 1, Color.magenta)); //deathRegion.
         frame.add(deathRegion);
@@ -140,7 +140,7 @@ public class GameLevel implements Animation {
         paddle.setLimits(size, width - size);
 //        ArrayList<Block> wall = createWallStairs(new Point(width - size - 12 * (width / 16) - 3, size + 100),
 //                height / 100, 1, height / 50, width / 16, blockHeight); //desired row? check
-        ArrayList<Block> frame = frame(width, height, size);
+        ArrayList<Block> frame = frame(width, height, size,this.levelInfo.frameColor());
         environment.addManyCollidable(frame);
         for (int i = 0; i < levelInfo.numberOfBlocksToRemove(); i++) {
             levelInfo.blocks().get(i).addToGame(this);
@@ -148,7 +148,9 @@ public class GameLevel implements Animation {
             levelInfo.blocks().get(i).addHitListener(this.scoreTracking);
         }
 
+
         environment.addManyCollidable(levelInfo.blocks());
+        sprites.addSprite( this.levelInfo.getBackground());
         sprites.addManySprite(frame);
         sprites.addManySprite(levelInfo.blocks());
 
@@ -158,12 +160,6 @@ public class GameLevel implements Animation {
             ball.addToGame(this);
             ball.setGameEnvironment(environment);
         }
-//        ball1.addToGame(this);
-//        ball1.setGameEnvironment(environment);
-//        ball2.addToGame(this);
-//        ball2.setGameEnvironment(environment);
-//        ball3.addToGame(this);
-//        ball3.setGameEnvironment(environment);
         paddle.addToGame(this);
     }
 

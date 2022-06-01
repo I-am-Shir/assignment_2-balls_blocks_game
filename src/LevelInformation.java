@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.List;
 
 public interface LevelInformation {
@@ -18,4 +19,6 @@ public interface LevelInformation {
     // before the level is considered to be "cleared".
     // This number should be <= blocks.size();
     int numberOfBlocksToRemove();
+    //gets color for the frame- only for aesthetics purpose.
+    Color frameColor();
 }

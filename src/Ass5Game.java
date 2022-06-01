@@ -17,7 +17,7 @@ public class Ass5Game {
      * @param args not used.
      */
     public static void main(String[] args) {  //turn static
-        GameLevel game = new GameLevel(new LevelTwo(), new Counter(0));
+        GameLevel game = new GameLevel(new LevelFour(), new Counter(0));
         game.initialize();
         game.run();
     }

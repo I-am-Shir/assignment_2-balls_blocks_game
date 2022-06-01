@@ -8,12 +8,14 @@ public class background1 implements Sprite{
     public void drawOn(DrawSurface d) {
         d.setColor(Color.black);
         d.fillRectangle(10,30,780,570);
-        d.setColor(Color.GREEN);
-        d.drawCircle(395,155,15);
-        d.setColor(Color.yellow);
-        d.drawCircle(395,155,25);
+        d.setColor(Color.red);
+        d.drawLine(400,50,400,270);
+        d.drawLine(290,160,510,160);
+        d.drawCircle(400,160,35);
         d.setColor(Color.orange);
-        d.drawCircle(395,155,35);
+        d.drawCircle(400,160,55);
+        d.setColor(Color.green);
+        d.drawCircle(400,160,75);
     }
 
     @Override
