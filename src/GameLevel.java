@@ -31,6 +31,7 @@ public class GameLevel implements Animation {
     private KeyboardSensor ks;
     private int width;
     private int height;
+    private ArrayList<Block> frame;
 
     /**
      * @param levelInfo the specific level information.
@@ -134,7 +135,7 @@ public class GameLevel implements Animation {
                         levelInfo.paddleWidth(),
                         paddleHeight, Color.magenta), ks,this.width);
         paddle.setLimits(size, width - size);
-        ArrayList<Block> frame = frame(width, height, size, this.levelInfo.frameColor());
+        this.frame = frame(width, height, size, this.levelInfo.frameColor());
         environment.addManyCollidable(frame);
 
         sprites.addSprite(this.levelInfo.getBackground());
@@ -170,6 +171,9 @@ public class GameLevel implements Animation {
 //        this.scoreIndicator.drawOn(d);
         this.sprites.notifyAllTimePassed();
 
+        if (this.ks.isPressed("p")) {
+            this.runner.run(new PauseScreen(this.ks, levelInfo.getBackground(),this.frame));
+        }
     }
 
     /**

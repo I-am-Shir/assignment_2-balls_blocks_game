@@ -24,31 +24,9 @@ public class AnimationRunner {
                 int millisecondsPerFrame = 1000 / framesPerSecond;
                 long startTime = System.currentTimeMillis();
 
-                if (this.ks.isPressed("p")) {
-                   this.pauseScreen = new PauseScreen(this.gui, this.ks);
-
-                   while(!this.pauseScreen.shouldStop()) {
-                       DrawSurface d = this.gui.getDrawSurface();
-                       this.pauseScreen.doOneFrame(d);
-                       this.gui.show(d);
-                       System.out.println(this.ks.isPressed("p") + " " + ks);
-                       if (this.ks.isPressed(KeyboardSensor.SPACE_KEY)) {
-                           break;
-                       }
-                       Sleeper sleeper = new Sleeper();
-                       long usedTime = System.currentTimeMillis() - startTime;
-                       long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
-                       if (milliSecondLeftToSleep > 0) {
-                           sleeper.sleepFor(milliSecondLeftToSleep);
-                       }
-                   }
-                }
-                else {
                     DrawSurface d = this.gui.getDrawSurface();
                     animation.doOneFrame(d);
                     this.gui.show(d);
-                }
-
 
                 // timing
                 Sleeper sleeper = new Sleeper();

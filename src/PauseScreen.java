@@ -3,41 +3,33 @@ import biuoop.GUI;
 import biuoop.KeyboardSensor;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class PauseScreen implements Animation {
-    private GUI gui;
+    private SpriteCollection sprites;
     private  KeyboardSensor keyboard;
     private boolean stop;
+    private Sprite background;
+    private ArrayList<Block> frame;
 
-    public PauseScreen(GUI gui,KeyboardSensor k) {
-        //this.gui = gui;
+    public PauseScreen(KeyboardSensor k,Sprite background,ArrayList<Block> frame) {
         this.keyboard = k;
         this.stop = false;
+        this.background = background;
+        this.frame = frame;
+        this.sprites = new SpriteCollection();
     }
     @Override
     public void doOneFrame(DrawSurface d) {
-//        d.setColor(Color.BLACK);
-//        d.fillRectangle(0, 0, d.getWidth(), d.getHeight());
-//        d.setColor(Color.decode("#1e7f00"));
-//        d.fillRectangle(0, d.getHeight() / 2 - 160, d.getWidth(), 150);
-//        d.setColor(Color.GREEN);
-//        d.fillRectangle(0, d.getHeight() / 2 - 160, d.getWidth(), 3);
-//        d.drawText(290, d.getHeight() / 2 - 100, "paused", 70);
-//        d.drawText(270, d.getHeight() / 2 - 30, "press space to continue", 25);
-//        d.fillRectangle(0, d.getHeight() / 2 - 10, d.getWidth(), 3);
-//        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
-//            this.stop = true;
-//        }
-//    }
-        d.setColor(Color.CYAN);
-        d.fillRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
-        d.setColor(Color.darkGray);
-        d.drawRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
-        d.setColor(Color.gray);
-        d.fillRectangle(d.getWidth() / 4 + 20, d.getHeight() / 4 + 20, d.getWidth() / 2 - 40, d.getHeight() / 2 - 40);
-        d.setColor(Color.white);
-        d.drawText(300 + 20, d.getHeight() / 2 - 80, "paused", 50);
-        d.drawText(300 - 70, d.getHeight() / 2, "press space to continue", 32);
+        this.background.drawOn(d);
+//        sprites.addManySprite(frame);
+//        this.sprites.drawAllOn(d);
+        d.drawText(300 + 20, d.getHeight() / 2 - 40, "paused", 50);
+        d.drawText(300 - 70, d.getHeight() / 2+40, "press space to continue", 32);
+
+        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
+            this.stop = true;
+        }
     }
 
 //        d.drawRectangle((int) pauseWindow.getUpperLeft().getX() - 1, (int) pauseWindow.getUpperLeft().getY() - 1,
