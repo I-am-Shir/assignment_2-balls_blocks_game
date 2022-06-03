@@ -6,7 +6,7 @@ import java.awt.Color;
  * the indicator to the player for his score.
  */
 public class ScoreIndicator implements Sprite {
-    private int lives;
+    private Counter lives;
     private String levelName;
     private Counter score;
     private Rectangle scoreTitle;
@@ -16,7 +16,7 @@ public class ScoreIndicator implements Sprite {
      *
      * @param score the players score.
      */
-    public ScoreIndicator(Counter score, int lives,String levelName) {
+    public ScoreIndicator(Counter score, Counter lives,String levelName) {
         this.lives = lives;
         this.levelName = levelName;
         this.score = score;
@@ -36,7 +36,7 @@ public class ScoreIndicator implements Sprite {
                 "Score: " + Integer.toString(this.score.getValue()), 13);
         d.drawText(((int) scoreTitle.getUpperLeft().getX() + (int) scoreTitle.getWidth() / 4),
                 ((int) scoreTitle.getUpperLeft().getY() + (int) scoreTitle.getHeight() / 2 + 5),
-                "Lives: " + Integer.toString(this.lives), 13);
+                "Lives: " + Integer.toString(this.lives.getValue()), 13);
         d.drawText(((int) scoreTitle.getUpperLeft().getX() + (int) scoreTitle.getWidth()-250),
                 ((int) scoreTitle.getUpperLeft().getY() + (int) scoreTitle.getHeight() / 2 + 5),
                 "Level Name: " + (this.levelName), 13);

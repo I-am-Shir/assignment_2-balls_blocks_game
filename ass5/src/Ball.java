@@ -199,15 +199,13 @@ public class Ball implements Sprite {
     public void timePassed() {
         Velocity v = new Velocity(this.velocity.getVx(), this.velocity.getVy());
         CollisionInfo collide = gameEnvironment.getClosestCollision(new Line(locat, v.applyToPoint(this.locat)));
-        //System.out.println(collide.collisionPoint());
 
         if (collide != null) {
             if (((this.locat.distance(collide.collisionPoint())) <= 3)) {
                 //      && (this.locat.distance(collide.collisionPoint()) >= 0)) {
                 v = collide.collisionObject().hit(this, collide.collisionPoint(), v);              //check
-
                 setVelocity(v);
-                //System.out.println("inter close" + v.toString());
+
             } else {
                 double totalVelo = Math.abs(v.getVx()) + Math.abs(v.getVy());
                 double percentageVx = Math.abs(v.getVx() / totalVelo);

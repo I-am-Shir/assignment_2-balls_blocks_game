@@ -1,10 +1,8 @@
-import biuoop.DrawSurface;
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LevelOne implements LevelInformation{
+public class Level1 implements LevelInformation{
     private List<Velocity> velocity;
     private background1 backSprite;
     private List<Block> block;
@@ -12,7 +10,7 @@ public class LevelOne implements LevelInformation{
     private BallRemover ballRemover;
 
 
-    public LevelOne(){
+    public Level1(){
         this.velocity = new ArrayList<Velocity>();
         this.velocity.add(new Velocity(0,-3));
        this.backSprite = new background1();
@@ -63,6 +61,6 @@ public class LevelOne implements LevelInformation{
 
     @Override
     public Color frameColor() {
-        return Color.CYAN;
+        return Color.red;
     }
 }

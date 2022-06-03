@@ -3,25 +3,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class LevelFour implements LevelInformation{
-
+public class Level3 implements LevelInformation{
     private List<Velocity> velocity;
-    private background4 backSprite;
+    private background3 backSprite;
     private List<Block> blocks;
     private BlockRemover blockRemover;
     private BallRemover ballRemover;
-    private Color color;
 
-    public LevelFour() {
+    public Level3() {
         this.velocity = new ArrayList<Velocity>();
-        this.velocity.add(new Velocity(-5, -3));
-        this.velocity.add(new Velocity(0, -5));
-        this.velocity.add(new Velocity(5, -3));
-        this.backSprite = new background4();
-        for (int i = 0; i < 7; i++) {
-
-        }
-        this.blocks = createRow(new Point(14,100),16,783/16,20,1);
+        this.velocity.add(new Velocity(-4, -5));
+        this.velocity.add(new Velocity(4, -3));
+        this.backSprite = new background3();
+        this.blocks = createWallStairs(new Point(800 - 13 - 12 * (800 / 16) - 3, 13 + 100),
+                600 / 100, 1, 600 / 50, 800 / 16, 600/50);
 //        Block block = new Block(new Rectangle(new Point(390, 150), 20, 20, Color.RED));
 //        this.blocks.add(block);
     }
@@ -33,19 +28,32 @@ public class LevelFour implements LevelInformation{
     }
 
     private ArrayList<Block> createRow(Point beginningLeft, int numberOfBlocks, int width, int height,
-                                       int distance) {
+                                       int distance, Color color) {
         ArrayList<Block> row = new ArrayList<>();
-        for (int i = 0; i < 7; i++) { //7 is number of rows
-           this.color = getRandomColor();
-            for (int j = 0; j < numberOfBlocks; j++) {
-                Block added = new Block(
-                        new Rectangle(new Point(beginningLeft.getX() + (width * j) + distance, beginningLeft.getY()+(i*(height+distance))),
-                                width,
-                                height, this.color));
-                row.add(added);
-            }
+        for (int i = 0; i < numberOfBlocks; i++) {
+            Block added = new Block(
+                    new Rectangle(new Point(beginningLeft.getX() + (width * i) + distance, beginningLeft.getY()), width,
+                            height, color));
+            row.add(added);
+            //    this.blockCounter.increase(1);
         }
         return row;
+    }
+
+    private ArrayList<Block> createWallStairs(Point upperLeft, int numberRows, int distance, int longestRow,
+                                              int width, int height) {
+        ArrayList<Block> wall = new ArrayList<>();
+        for (int i = 0; i < numberRows; i++) {
+            wall.addAll(createRow(new Point(upperLeft.getX() + (width * i), upperLeft.getY() + (height * i)
+                            + distance * i), longestRow - i, width, height, distance,
+                    getRandomColor()));
+        }
+
+        return wall;
+    }
+
+    public Color frameColor(){
+        return Color.decode("#3430E8");
     }
 
     @Override
@@ -70,7 +78,7 @@ public class LevelFour implements LevelInformation{
 
     @Override
     public String levelName() {
-        return new String("Final Four");
+        return new String("Green 3");
     }
 
     @Override
@@ -86,10 +94,5 @@ public class LevelFour implements LevelInformation{
     @Override
     public int numberOfBlocksToRemove() {
         return this.blocks.size();
-    }
-
-    @Override
-    public Color frameColor() {
-        return Color.decode("#2D324E");
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
  */
 public class GameEnvironment {
 
-    private ArrayList<Collidable> gameEnviro = new ArrayList<Collidable>();
+    private List<Collidable> gameEnviro = new ArrayList<Collidable>();
 
     /**
      * array of collidables.

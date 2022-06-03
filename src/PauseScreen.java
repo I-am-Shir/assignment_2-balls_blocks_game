@@ -10,13 +10,12 @@ public class PauseScreen implements Animation {
     private boolean stop;
 
     public PauseScreen(GUI gui,KeyboardSensor k) {
-        this.gui = gui;
+        //this.gui = gui;
         this.keyboard = k;
         this.stop = false;
     }
     @Override
     public void doOneFrame(DrawSurface d) {
-
 //        d.setColor(Color.BLACK);
 //        d.fillRectangle(0, 0, d.getWidth(), d.getHeight());
 //        d.setColor(Color.decode("#1e7f00"));
@@ -39,10 +38,6 @@ public class PauseScreen implements Animation {
         d.setColor(Color.white);
         d.drawText(300 + 20, d.getHeight() / 2 - 80, "paused", 50);
         d.drawText(300 - 70, d.getHeight() / 2, "press space to continue", 32);
-        this.gui.show(d);
-        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
-            this.stop = true;
-        }
     }
 
 //        d.drawRectangle((int) pauseWindow.getUpperLeft().getX() - 1, (int) pauseWindow.getUpperLeft().getY() - 1,

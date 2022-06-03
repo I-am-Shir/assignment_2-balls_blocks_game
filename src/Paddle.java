@@ -8,11 +8,23 @@ import java.awt.Color;
  * paddle class.
  */
 public class Paddle implements Sprite, Collidable {
-    private GUI gui;
     private KeyboardSensor keyboard;
     private Rectangle paddle;
     private int limitRight = (int) Double.POSITIVE_INFINITY;
     private int limitLeft = 0;
+    private int width;
+
+    /**
+     * constructor.
+     *
+     * @param paddle the paddle, which is a rectangle.
+     * @param gui    the gui for the paddle (and game).
+     */
+    public Paddle(Rectangle paddle, KeyboardSensor ks, int width) {
+        this.paddle = paddle;
+        this.keyboard = ks;
+        this.width = width;
+    }
 
     /**
      * setting the limits for the paddle.
@@ -26,18 +38,6 @@ public class Paddle implements Sprite, Collidable {
     }
 
     /**
-     * constructor.
-     *
-     * @param paddle the paddle, which is a rectangle.
-     * @param gui    the gui for the paddle (and game).
-     */
-    public Paddle(Rectangle paddle, GUI gui) {
-        this.paddle = paddle;
-        this.gui = gui;
-        this.keyboard = gui.getKeyboardSensor();
-    }
-
-    /**
      * moving the paddle left step.
      */
     public void moveLeft() {
@@ -45,7 +45,7 @@ public class Paddle implements Sprite, Collidable {
             return;
         }
         Rectangle reapearedPaddle = new Rectangle(
-                new Point(paddle.getUpperLeft().getX() - gui.getDrawSurface().getWidth() / 100,
+                new Point(paddle.getUpperLeft().getX() - this.width / 100,
                         paddle.getUpperLeft().getY()),
                 paddle.getWidth(), paddle.getHeight(), paddle.getColor());
         paddle = reapearedPaddle;
@@ -59,7 +59,7 @@ public class Paddle implements Sprite, Collidable {
             return;
         }
         Rectangle reapearedPaddle = new Rectangle(
-                new Point(paddle.getUpperLeft().getX() + gui.getDrawSurface().getWidth() / 100,
+                new Point(paddle.getUpperLeft().getX() + this.width / 100,
                         paddle.getUpperLeft().getY()),
                 paddle.getWidth(), paddle.getHeight(), paddle.getColor());
         paddle = reapearedPaddle;

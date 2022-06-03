@@ -6,6 +6,8 @@ public class background2 implements Sprite {
 
     @Override
     public void drawOn(DrawSurface d) {
+        d.setColor(Color.decode("#66AEDB"));
+        d.fillRectangle(10,30,780,570);
         d.setColor(Color.decode("#EDD88C"));
         int rayStartY = 80;
         for (int i = 0; i < 100; i++) {  //drawing sun rays

@@ -93,8 +93,9 @@ public class Block implements Collidable, Sprite, HitNotifier {
      * @param game the game were working on.
      */
     public void removeFromGame(GameLevel game) {
-        game.removeCollidable(this);
+
         game.removeSprite(this);
+        game.removeCollidable(this);
     }
 
     private void notifyHit(Ball hitter) {
@@ -102,7 +103,8 @@ public class Block implements Collidable, Sprite, HitNotifier {
         List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);
         // Notify all listeners about a hit event:
         for (HitListener hl : listeners) {
-            hl.hitEvent(this, hitter);
+            if (this != hl)
+                hl.hitEvent(this, hitter);
         }
     }
 
