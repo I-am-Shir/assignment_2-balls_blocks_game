@@ -2,7 +2,10 @@ import biuoop.DrawSurface;
 
 import java.awt.Color;
 
-public class background3 implements Sprite {
+/**
+ * the background for level 3 in the game.
+ */
+public class Background3 implements Sprite {
     @Override
     public void drawOn(DrawSurface d) {
         d.setColor(Color.decode("#2036A2"));
@@ -60,44 +63,17 @@ public class background3 implements Sprite {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 d.setColor(Color.white);
-                d.fillRectangle(55 + (j * 20), 435 + (i*43), 10, 30);
+                d.fillRectangle(55 + (j * 20), 435 + (i * 43), 10, 30);
             }
         }
         d.setColor(Color.decode("#E8B85E"));
-        d.fillCircle(99,185,13);
+        d.fillCircle(99, 185, 13);
         d.setColor(Color.decode("#E8785E"));
-        d.fillCircle(99,185,11);
+        d.fillCircle(99, 185, 11);
         d.setColor(Color.decode("#E84330"));
-        d.fillCircle(99,185,7);
+        d.fillCircle(99, 185, 7);
         d.setColor(Color.decode("#E9E3E2"));
-        d.fillCircle(99,185,3);
-
-
-//        d.setColor(Color.decode("#3242B8"));
-//        d.fillRectangle(10,80,780,130);
-//        d.setColor(Color.decode("#6632B8"));
-//        d.fillRectangle(10,130,780,180);
-//        d.setColor(Color.decode("#A032B8"));
-//        d.fillRectangle(10,230,780,280);
-//        d.setColor(Color.decode("#B83290"));
-//        d.fillRectangle(10,280,780,330);
-//        d.setColor(Color.decode("#AC2F46"));
-//        d.fillRectangle(10,330,780,380);
-//        d.setColor(Color.decode("#AC402F"));
-//        d.fillRectangle(10,380,780,430);
-//        d.setColor(Color.decode("#D35F31"));
-//        d.fillRectangle(10,430,780,455);
-//        d.setColor(Color.decode("#CD6D32"));
-//        d.fillRectangle(10,455,780,480);
-//        d.setColor(Color.decode("#EA8E39"));
-//        d.fillRectangle(10,480,780,500);
-//        d.setColor(Color.decode("#EAAC39"));
-//        d.fillRectangle(10,500,780,530);
-//        d.setColor(Color.decode("#EABB39"));
-//        d.fillRectangle(10,530,780,555);
-//        d.setColor(Color.decode("#EAC739"));
-//        d.fillRectangle(10,555,780,570);
-
+        d.fillCircle(99, 185, 3);
     }
 
     @Override

@@ -4,7 +4,11 @@
 public class Counter {
     private int counter;
 
-    public Counter(int blockNum){
+    /**
+     * constructor.
+     * @param blockNum
+     */
+    public Counter(int blockNum) {
         this.counter = blockNum;
     }
 

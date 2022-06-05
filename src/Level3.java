@@ -3,20 +3,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Level3 implements LevelInformation{
+/**
+ * the level information for level 3.
+ */
+public class Level3 implements LevelInformation {
     private List<Velocity> velocity;
-    private background3 backSprite;
+    private Background3 backSprite;
     private List<Block> blocks;
     private BlockRemover blockRemover;
     private BallRemover ballRemover;
 
+    /**
+     * constructor.
+     */
     public Level3() {
         this.velocity = new ArrayList<Velocity>();
         this.velocity.add(new Velocity(-4, -5));
         this.velocity.add(new Velocity(4, -3));
-        this.backSprite = new background3();
+        this.backSprite = new Background3();
         this.blocks = createWallStairs(new Point(800 - 13 - 12 * (800 / 16) - 3, 13 + 100),
-                600 / 100, 1, 600 / 50, 800 / 16, 600/50);
+                600 / 100, 1, 600 / 50, 800 / 16, 600 / 50);
 //        Block block = new Block(new Rectangle(new Point(390, 150), 20, 20, Color.RED));
 //        this.blocks.add(block);
     }
@@ -52,7 +58,11 @@ public class Level3 implements LevelInformation{
         return wall;
     }
 
-    public Color frameColor(){
+    /**
+     * the color for the games frame in this level.
+     * @return the chosen color.
+     */
+    public Color frameColor() {
         return Color.decode("#3430E8");
     }
 

@@ -103,8 +103,9 @@ public class Block implements Collidable, Sprite, HitNotifier {
         List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);
         // Notify all listeners about a hit event:
         for (HitListener hl : listeners) {
-            if (this != hl)
+            if (this != hl) {
                 hl.hitEvent(this, hitter);
+            }
         }
     }
 

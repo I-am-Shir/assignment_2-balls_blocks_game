@@ -1,18 +1,36 @@
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
-
 import java.awt.Color;
 
-public class EndScreen implements Animation{
+/**
+ * the class for creating the screen shown at the end of the game.
+ */
+public class EndScreen implements Animation {
     private boolean win;
     private Counter score;
-    public EndScreen(boolean win, Counter score){
+    private boolean running;
+    private KeyboardSensor ks;
+
+    /**
+     * constructor.
+     * @param win the result of the game, true-won, false-lost.
+     * @param score the players end score.
+     * @param ks the keyboard sensor (for closing the game).
+     */
+    public EndScreen(boolean win, Counter score, KeyboardSensor ks) {
         this.win = win;
         this.score = score;
+        this.running = true;
+        this.ks = ks;
     }
+
     @Override
     public void doOneFrame(DrawSurface d) {
-        if(win) {
+        if (this.ks.isPressed(KeyboardSensor.SPACE_KEY)) {
+            this.running = false;
+        }
+
+        if (win) {
             d.setColor(Color.decode("#3242B8"));
             d.fillRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
             d.setColor(Color.decode("#6632B8"));
@@ -47,43 +65,24 @@ public class EndScreen implements Animation{
                     d.getHeight() / 24);
 
             d.setColor(Color.BLACK);
-            d.drawText(300 - 20, d.getHeight() / 2 - 80, "YOU WIN!!!!", 50);
-        d.drawText(300 - 30, d.getHeight() / 2, "your score is" + this.score.getValue(), 32);
-        }
-        else{
+            d.drawText(300 - 40, d.getHeight() / 2 - 80, "YOU WIN!!!!", 50);
+            d.drawText(300 - 60, d.getHeight() / 2, "your score is" + this.score.getValue(), 32);
+        } else {
             d.setColor(Color.CYAN);
-        d.fillRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
-        d.setColor(Color.darkGray);
-        d.drawRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
-        d.setColor(Color.gray);
-        d.fillRectangle(d.getWidth() / 4 + 20, d.getHeight() / 4 + 20, d.getWidth() / 2 - 40, d.getHeight() / 2 - 40);
-        d.setColor(Color.white);
-        d.drawText(300 - 20, d.getHeight() / 2 - 80, "GAME OVER", 50);
-        d.drawText(300 - 40, d.getHeight() / 2, "Maybe Next Time", 32);
+            d.fillRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
+            d.setColor(Color.darkGray);
+            d.drawRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
+            d.setColor(Color.gray);
+            d.fillRectangle(d.getWidth() / 4 + 20, d.getHeight() / 4 + 20, d.getWidth() / 2 - 40,
+                    d.getHeight() / 2 - 40);
+            d.setColor(Color.white);
+            d.drawText(300 - 50, d.getHeight() / 2 - 50, "GAME OVER", 50);
+            d.drawText(300 - 32, d.getHeight() / 2+30, "Maybe Next Time", 32);
         }
-//        d.setColor(Color.decode("#EAAC39"));
-//        d.fillRectangle(10,500,780,530);
-//        d.setColor(Color.decode("#EABB39"));
-//        d.fillRectangle(10,530,780,555);
-//        d.setColor(Color.decode("#EAC739"));
-//        d.fillRectangle(10,555,780,570);
     }
-
-//      d.setColor(Color.CYAN);
-//        d.fillRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
-//        d.setColor(Color.darkGray);
-//        d.drawRectangle(d.getWidth() / 4, d.getHeight() / 4, d.getWidth() / 2, d.getHeight() / 2);
-//        d.setColor(Color.gray);
-//        d.fillRectangle(d.getWidth() / 4 + 20, d.getHeight() / 4 + 20, d.getWidth() / 2 - 40, d.getHeight() / 2 - 40);
-//        d.setColor(Color.white);
-//        d.drawText(300 + 20, d.getHeight() / 2 - 80, "paused", 50);
-//        d.drawText(300 - 70, d.getHeight() / 2, "press space to continue", 32);
-//        this.gui.show(d);
-//        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
-//        this.stop = true;
 
     @Override
     public boolean shouldStop() {
-        return false;
+        return !this.running;
     }
 }

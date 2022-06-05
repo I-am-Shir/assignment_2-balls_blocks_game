@@ -1,5 +1,4 @@
 import biuoop.DrawSurface;
-import biuoop.GUI;
 import biuoop.KeyboardSensor;
 
 import java.awt.Color;
@@ -18,7 +17,8 @@ public class Paddle implements Sprite, Collidable {
      * constructor.
      *
      * @param paddle the paddle, which is a rectangle.
-     * @param gui    the gui for the paddle (and game).
+     * @param ks     the keyboard sensor, for paddle movement.
+     * @param width  the width of the paddle.
      */
     public Paddle(Rectangle paddle, KeyboardSensor ks, int width) {
         this.paddle = paddle;
@@ -105,7 +105,7 @@ public class Paddle implements Sprite, Collidable {
     /**
      * the hit method of the block.
      *
-     * @param hitter the ball that made the hit happen.
+     * @param hitter          the ball that made the hit happen.
      * @param collisionPoint  where it's expected to collide.
      * @param currentVelocity the current velocity.
      * @return the new velocity of the ball.

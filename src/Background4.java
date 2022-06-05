@@ -2,7 +2,10 @@ import biuoop.DrawSurface;
 
 import java.awt.Color;
 
-public class background4 implements Sprite {
+/**
+ * the background for level 4 in the game.
+ */
+public class Background4 implements Sprite {
     @Override
     public void drawOn(DrawSurface d) {
         d.setColor(Color.decode("#3A4164"));

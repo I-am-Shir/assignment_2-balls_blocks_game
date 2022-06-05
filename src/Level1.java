@@ -2,20 +2,25 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Level1 implements LevelInformation{
+/**
+ * the level information for level 1.
+ */
+public class Level1 implements LevelInformation {
     private List<Velocity> velocity;
-    private background1 backSprite;
+    private Background1 backSprite;
     private List<Block> block;
     private BlockRemover blockRemover;
     private BallRemover ballRemover;
 
-
-    public Level1(){
+    /**
+     * constructor.
+     */
+    public Level1() {
         this.velocity = new ArrayList<Velocity>();
-        this.velocity.add(new Velocity(0,-3));
-       this.backSprite = new background1();
+        this.velocity.add(new Velocity(0, -3));
+        this.backSprite = new Background1();
         this.block = new ArrayList<>();
-        Block block = new Block(new Rectangle(new Point(390,150),20,20, Color.RED));
+        Block block = new Block(new Rectangle(new Point(390, 150), 20, 20, Color.RED));
         this.block.add(block);
     }
 
@@ -26,7 +31,7 @@ public class Level1 implements LevelInformation{
 
     @Override
     public List<Velocity> initialBallVelocities() {
-       return velocity;
+        return velocity;
     }
 
     @Override

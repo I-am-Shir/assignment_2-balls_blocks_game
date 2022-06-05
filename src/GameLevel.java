@@ -1,5 +1,4 @@
 import biuoop.DrawSurface;
-import biuoop.GUI;
 import biuoop.KeyboardSensor;
 
 import java.awt.Color;
@@ -119,35 +118,22 @@ public class GameLevel implements Animation {
         return frame;
     }
 
-    public SpriteCollection PaddleAndBalls (){
-        SpriteCollection paddleAndBalls = new SpriteCollection();
-        int size = width / 60;
-        int paddleWidth = this.levelInfo.paddleWidth();
-        int paddleHeight = height / 60;
-        this.paddle = new Paddle(
-                new Rectangle(new Point(width / 2 - paddleWidth / 2, height - size - paddleHeight - 2),
-                        levelInfo.paddleWidth(),
-                        paddleHeight, Color.magenta), ks,this.width);
-        paddle.setLimits(size, width - size);
-        paddleAndBalls.addSprite(paddle);
-        for (int i = 0; i < this.levelInfo.initialBallVelocities().size(); i++) {
-            Ball ball = new Ball(width / 2, (height / 3) * 2, size / 2, levelInfo.initialBallVelocities().get(i),
-                    getRandomColor());
-            HitListener ballRemover = new BallRemover(this, this.ballCounter);
-            // ballCounter.increase(1);
-            PaddleAndBalls().addSprite(ball);
-            ball.addToGame(this);
-            ball.setGameEnvironment(environment);
-        return paddleAndBalls;
-    }
     /**
      * Initialize a new game: create the Blocks and Ball (and Paddle),
      * and add them to the game.
      */
     public void initialize() {
-        size = width / 60;
+        int size = width / 60;
         int blockHeight = height / 50;
+        int paddleWidth = this.levelInfo.paddleWidth();
+        int paddleHeight = height / 60;
 
+        //GUI gui = new GUI("DESTROY!!!", 800, 600);
+        this.paddle = new Paddle(
+                new Rectangle(new Point(width / 2 - paddleWidth / 2, height - size - paddleHeight - 2),
+                        levelInfo.paddleWidth(),
+                        paddleHeight, Color.magenta), ks, this.width);
+        paddle.setLimits(size, width - size);
         this.frame = frame(width, height, size, this.levelInfo.frameColor());
         environment.addManyCollidable(frame);
 
@@ -159,10 +145,16 @@ public class GameLevel implements Animation {
             levelInfo.blocks().get(i).addHitListener(this.blockRemover);
             levelInfo.blocks().get(i).addHitListener(this.scoreTracking);
         }
-        paddleAndBalls();
 
+        for (int i = 0; i < this.levelInfo.initialBallVelocities().size(); i++) {
+            Ball ball = new Ball(width / 2, (height / 3) * 2, size / 2, levelInfo.initialBallVelocities().get(i),
+                    getRandomColor());
+            HitListener ballRemover = new BallRemover(this, this.ballCounter);
+            // ballCounter.increase(1);
+            ball.addToGame(this);
+            ball.setGameEnvironment(environment);
         }
-        paddleAndBalls.paddle.addToGame(this);
+        paddle.addToGame(this);
     }
 
     /**
@@ -179,7 +171,7 @@ public class GameLevel implements Animation {
         this.sprites.notifyAllTimePassed();
 
         if (this.ks.isPressed("p")) {
-            this.runner.run(new PauseScreen(this.ks, levelInfo.getBackground(),this.frame));
+            this.runner.run(new PauseScreen(this.ks, levelInfo.getBackground(), this.frame));
         }
     }
 
@@ -190,19 +182,28 @@ public class GameLevel implements Animation {
      */
     @Override
     public boolean shouldStop() {
-        if (wonLevel())
+        if (wonLevel()) {
             running = false;
-        if (lostLevel())
+        }
+        if (lostLevel()) {
             running = false;
+        }
         return !this.running;
     }
 
-    public boolean lostLevel(){
+    /**
+     * checks if there are no more balls left = the round was lost.
+     * @return if the balls are finished- true, else-false.
+     */
+    public boolean lostLevel() {
         return this.ballCounter.getValue() <= 0;
     }
 
-    public int ballCount()
-    {
+    /**
+     * the number of balls.
+     * @return the number in an integer form.
+     */
+    public int ballCount() {
         return ballCounter.getValue();
     }
 
@@ -232,7 +233,8 @@ public class GameLevel implements Animation {
     public void run() {
         //  this.runner.run(new CountdownAnimation(2000,3,this.sprites)); // countdown before turn starts.
         //makes the running loop until the game is finished.
-       // initialize();
+        // initialize();
+        this.runner.run(new CountdownAnimation(2, 3, this.sprites));
         this.running = true;
         this.runner.run(this);
 
