@@ -119,22 +119,35 @@ public class GameLevel implements Animation {
         return frame;
     }
 
-    /**
-     * Initialize a new game: create the Blocks and Ball (and Paddle),
-     * and add them to the game.
-     */
-    public void initialize() {
+    public SpriteCollection PaddleAndBalls (){
+        SpriteCollection paddleAndBalls = new SpriteCollection();
         int size = width / 60;
-        int blockHeight = height / 50;
         int paddleWidth = this.levelInfo.paddleWidth();
         int paddleHeight = height / 60;
-
-        //GUI gui = new GUI("DESTROY!!!", 800, 600);
         this.paddle = new Paddle(
                 new Rectangle(new Point(width / 2 - paddleWidth / 2, height - size - paddleHeight - 2),
                         levelInfo.paddleWidth(),
                         paddleHeight, Color.magenta), ks,this.width);
         paddle.setLimits(size, width - size);
+        paddleAndBalls.addSprite(paddle);
+        for (int i = 0; i < this.levelInfo.initialBallVelocities().size(); i++) {
+            Ball ball = new Ball(width / 2, (height / 3) * 2, size / 2, levelInfo.initialBallVelocities().get(i),
+                    getRandomColor());
+            HitListener ballRemover = new BallRemover(this, this.ballCounter);
+            // ballCounter.increase(1);
+            PaddleAndBalls().addSprite(ball);
+            ball.addToGame(this);
+            ball.setGameEnvironment(environment);
+        return paddleAndBalls;
+    }
+    /**
+     * Initialize a new game: create the Blocks and Ball (and Paddle),
+     * and add them to the game.
+     */
+    public void initialize() {
+        size = width / 60;
+        int blockHeight = height / 50;
+
         this.frame = frame(width, height, size, this.levelInfo.frameColor());
         environment.addManyCollidable(frame);
 
@@ -146,16 +159,10 @@ public class GameLevel implements Animation {
             levelInfo.blocks().get(i).addHitListener(this.blockRemover);
             levelInfo.blocks().get(i).addHitListener(this.scoreTracking);
         }
+        paddleAndBalls();
 
-        for (int i = 0; i < this.levelInfo.initialBallVelocities().size(); i++) {
-            Ball ball = new Ball(width / 2, (height / 3) * 2, size / 2, levelInfo.initialBallVelocities().get(i),
-                    getRandomColor());
-            HitListener ballRemover = new BallRemover(this, this.ballCounter);
-           // ballCounter.increase(1);
-            ball.addToGame(this);
-            ball.setGameEnvironment(environment);
         }
-        paddle.addToGame(this);
+        paddleAndBalls.paddle.addToGame(this);
     }
 
     /**

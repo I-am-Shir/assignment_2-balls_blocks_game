@@ -35,6 +35,10 @@ public class GameFlow {
                         this.keyboardSensor,
                         this.animationRunner, this.score, this.lives, this.width, this.height);
                 this.scoreIndicator = new ScoreIndicator(this.score, this.lives, levelInfo.levelName());
+                SpriteCollection gameScreen = new SpriteCollection();
+                gameScreen.addSprite(levelInfo.getBackground());
+                gameScreen.addSprite(scoreIndicator);
+                gameScreen.addSprite(lev);
                 level.initialize();
                 level.addSprite(this.scoreIndicator);
                 level.run();
